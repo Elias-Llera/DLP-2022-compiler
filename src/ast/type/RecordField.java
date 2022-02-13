@@ -4,15 +4,15 @@ import ast.definition.VariableDefinition;
 
 public class RecordField {
 
-    private VariableDefinition variableDefinition;
+    private Type type;
     private String name;
 
-    public VariableDefinition getVariableDefinition() {
-        return variableDefinition;
+    public Type getType() {
+        return type;
     }
 
-    public void setVariableDefinition(VariableDefinition variableDefinition) {
-        this.variableDefinition = variableDefinition;
+    public void setType(Type type) {
+        this.type = type;
     }
 
     public String getName() {
