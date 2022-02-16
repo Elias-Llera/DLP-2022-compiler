@@ -1,6 +1,7 @@
 package ast.definition;
 
 import ast.statement.Statement;
+import ast.type.Type;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,14 +9,16 @@ import java.util.List;
 public class FunctionDefinition extends AbstractDefinition{
 
     private List<Statement> functionStatements;
-    private List<VariableDefinition> functionVariables;
+    private List<VariableDefinition> variableStatements;
 
-    public FunctionDefinition(int line, int column) {
-        super(line, column);
+    public FunctionDefinition(String name, Type type, List<Statement> functionStatements, List<VariableDefinition> variableStatements, int line, int column) {
+        super(name, type, line, column);
+        this.functionStatements = functionStatements;
+        this.variableStatements = variableStatements;
     }
 
     public List<VariableDefinition> getFunctionVariables(){
-        return new ArrayList<VariableDefinition>(functionVariables);
+        return new ArrayList<VariableDefinition>(variableStatements);
     }
 
     public List<Statement> getFunctionStatements(){
@@ -27,6 +30,6 @@ public class FunctionDefinition extends AbstractDefinition{
     }
 
     public void addVariableDefinition(VariableDefinition variableDefinition){
-        this.functionVariables.add(variableDefinition);
+        this.variableStatements.add(variableDefinition);
     }
 }

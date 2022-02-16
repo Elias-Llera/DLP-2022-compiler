@@ -9,8 +9,11 @@ public abstract class BinaryOperation extends AbstractExpression
     private Expression leftExpression;
     private String operator;
 
-    public BinaryOperation(int line, int column) {
+    public BinaryOperation(String operator, Expression rightExpression, Expression leftExpression, int line, int column) {
         super(line, column);
+        this.operator = operator;
+        this.leftExpression = leftExpression;
+        this.rightExpression = rightExpression;
     }
 
     public Expression getRightExpression() {

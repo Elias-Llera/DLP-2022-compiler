@@ -4,8 +4,9 @@ public class FieldAccess extends AbstractExpression{
 
     private Expression expression;
 
-    public FieldAccess(int line, int column) {
+    public FieldAccess(Expression expression, int line, int column) {
         super(line, column);
+        this.expression = expression;
     }
 
     public Expression getExpression() {

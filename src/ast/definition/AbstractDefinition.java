@@ -8,8 +8,10 @@ public abstract class AbstractDefinition extends AbstractAstNode implements Defi
     private String name;
     private Type type;
 
-    public AbstractDefinition(int line, int column) {
+    public AbstractDefinition(String name, Type type, int line, int column) {
         super(line, column);
+        this.type = type;
+        this.name = name;
     }
 
     @Override

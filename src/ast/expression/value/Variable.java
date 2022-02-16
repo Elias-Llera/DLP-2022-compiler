@@ -6,8 +6,8 @@ public class Variable extends AbstractExpression {
 
     private String name;
 
-    public Variable(int line, int column) {
-        super(line, column);
+    public Variable(String name, int line, int column) {
+        super(line, column); this.name = name;
     }
 
     public String getName() {

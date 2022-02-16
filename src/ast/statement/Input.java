@@ -6,8 +6,9 @@ public class Input extends AbstractStatement{
 
     private Expression expression;
 
-    public Input(int line, int column) {
+    public Input(Expression expression, int line, int column) {
         super(line, column);
+        this.expression = expression;
     }
 
     public Expression getExpression() {

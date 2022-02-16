@@ -8,8 +8,10 @@ public abstract class UnaryOperation extends AbstractExpression {
     private String operator;
     private Expression expression;
 
-    public UnaryOperation(int line, int column) {
+    public UnaryOperation(String operator, Expression expression, int line, int column) {
         super(line, column);
+        this.expression = expression;
+        this.operator = operator;
     }
 
     public String getOperator() {

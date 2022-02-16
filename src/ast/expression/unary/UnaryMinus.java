@@ -1,11 +1,12 @@
 package ast.expression.unary;
 
+import ast.expression.Expression;
 import ast.expression.binary.BinaryOperation;
 
 public class UnaryMinus extends UnaryOperation {
 
-    public UnaryMinus(int line, int column) {
-        super(line, column);
-    }
 
+    public UnaryMinus(String operator, Expression expression, int line, int column) {
+        super(operator, expression, line, column);
+    }
 }
