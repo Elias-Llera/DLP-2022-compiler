@@ -8,8 +8,10 @@ public class Assignment extends AbstractExpression {
     private Expression rightSideExpression;
     private Expression leftSideExpression;
 
-    public Assignment(int line, int column) {
+    public Assignment(Expression leftSideExpression, Expression rightSideExpression, int line, int column) {
         super(line, column);
+        this.leftSideExpression = leftSideExpression;
+        this.rightSideExpression = rightSideExpression;
     }
 
     public Expression getRightSideExpression() {

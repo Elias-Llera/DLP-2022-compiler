@@ -9,8 +9,9 @@ public class Program extends AbstractAstNode{
 
     private List<Definition> program;
 
-    public Program(int line, int column) {
+    public Program(List<Definition> program, int line, int column) {
         super(line, column);
+        this.program = program;
     }
 
     public List<Definition> getProgram(){

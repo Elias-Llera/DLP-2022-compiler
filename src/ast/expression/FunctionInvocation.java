@@ -11,8 +11,10 @@ public class FunctionInvocation extends AbstractExpression implements Statement 
     private Variable variable;
     private List<Expression> parameters;
 
-    public FunctionInvocation(int line, int column) {
+    public FunctionInvocation(Variable variable, List<Expression> parameters, int line, int column) {
         super(line, column);
+        this.variable = variable;
+        this.parameters = parameters;
     }
 
     public Variable getVariable(){

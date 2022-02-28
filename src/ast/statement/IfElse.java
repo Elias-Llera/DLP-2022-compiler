@@ -12,8 +12,11 @@ public class IfElse extends AbstractStatement {
     private List<Statement> elseBody;
     private Expression condition;
 
-    public IfElse(int line, int column) {
+    public IfElse(List<Statement> ifBody, List<Statement> elseBody, Expression condition, int line, int column) {
         super(line, column);
+        this.ifBody = ifBody;
+        this.elseBody = elseBody;
+        this.condition = condition;
     }
 
     public Expression getCondition() {

@@ -1,13 +1,15 @@
 package ast.statement;
 
 import ast.expression.Expression;
+import com.sun.nio.file.ExtendedOpenOption;
 
-public class Print extends AbstractStatement{
+public class Print extends AbstractStatement {
 
     private Expression expression;
 
-    public Print(int line, int column) {
+    public Print(Expression expression, int line, int column) {
         super(line, column);
+        this.expression = expression;
     }
 
     public Expression getExpression() {

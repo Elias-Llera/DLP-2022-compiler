@@ -6,13 +6,15 @@ import java.lang.reflect.Parameter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FunctionType extends AbstractType{
+public class FunctionType extends AbstractType {
 
     private List<VariableDefinition> parameters;
     private Type returnType;
 
-    public FunctionType(int line, int column) {
+    public FunctionType(List<VariableDefinition> parameters, Type type, int line, int column) {
         super(line, column);
+        this.parameters = parameters;
+        this.returnType = type;
     }
 
     public List<VariableDefinition> getParameters() {

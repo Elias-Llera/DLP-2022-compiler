@@ -11,8 +11,10 @@ public class While extends AbstractExpression {
     private Expression condition;
     private List<Statement> body;
 
-    public While(int line, int column) {
+    public While(Expression condition, List<Statement> body, int line, int column) {
         super(line, column);
+        this.condition = condition;
+        this.body = body;
     }
 
     public Expression getCondition() {

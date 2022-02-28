@@ -2,12 +2,13 @@ package ast.statement;
 
 import ast.expression.Expression;
 
-public class Return extends AbstractStatement{
+public class Return extends AbstractStatement {
 
     private Expression expression;
 
-    public Return(int line, int column) {
+    public Return(Expression expression, int line, int column) {
         super(line, column);
+        this.expression = expression;
     }
 
     public Expression getExpression() {
