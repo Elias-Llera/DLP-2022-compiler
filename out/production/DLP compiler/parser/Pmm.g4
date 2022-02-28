@@ -1,7 +1,12 @@
 grammar Pmm;	
 
-program: 
+program: expression
        ;
+
+expression: INT_CONSTANT
+           |CHAR_CONSTANT
+           | REAL_CONSTANT
+           ;
 
 fragment
 ONE_LINE_COMMENT: '#' .*? '\r'? ('\n'|EOF)
