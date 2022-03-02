@@ -6,23 +6,27 @@ program: (variable_definition | funtion_definition)* funtion_definition EOF
 variable_definition: ID (',' ID)* ':' type ';'
 ;
 
-funtion_definition: 'def' ID '(' ID ':' built_in_type (',' ID ':' built_in_type)* ')' '{' variable_definition* statement* '}'
+funtion_definition: 'def' ID '(' (ID ':' built_in_type (',' ID ':' built_in_type)*)? ')' ':' type? '{' variable_definition* statement* '}'
 ;
 
-statement: 'print' expression ';'
+statement: 'print' expression (',' expression)* ';'
          | 'input' expression ';'
          | expression '=' expression ';'
-         | 'if' '(' expression ')' '{' statement* '}' ('else' '{' statement* '}')?
-         | 'while' '(' expression ')' '{' statement* '}'
+         | 'if' expression ':' body? ('else' body?)?
+         | 'while' expression ':' body?
          | 'return' expression ';'
-         | /* Function|procedure **/ ID '(' expression (','expression)* ')' ';'
+         | /* Function|procedure **/ ID '(' (expression (','expression)*)? ')' ';'
          ;
+
+body: '{' statement* '}'
+    | statement
+    ;
 
 expression: INT_CONSTANT
           | CHAR_CONSTANT
           | REAL_CONSTANT
           | ID
-          | /* Function **/ ID '(' expression (','expression)* ')'
+          | /* Function **/ ID '(' (expression (','expression)*)? ')'
           | '(' expression ')'
           | expression '[' expression ']'
           | expression '.' ID
