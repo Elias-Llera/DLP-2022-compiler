@@ -1,6 +1,5 @@
 package ast.statement;
 
-import ast.definition.AbstractDefinition;
 import ast.expression.Expression;
 
 import java.util.ArrayList;

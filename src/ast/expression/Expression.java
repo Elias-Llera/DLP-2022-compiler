@@ -1,4 +1,6 @@
 package ast.expression;
 
-public interface Expression {
+import ast.AstNode;
+
+public interface Expression extends AstNode {
 }
