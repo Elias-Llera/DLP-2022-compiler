@@ -2,22 +2,26 @@ package ast.type;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
-public class Record extends AbstractType{
+public class RecordType extends AbstractType{
 
     private List<RecordField> fields;
 
-    public Record(List<RecordField> recordFields, int line, int column) {
+    public RecordType(List<RecordField> recordFields, int line, int column) {
         super(line, column);
         this.fields = recordFields;
+    }
+
+    public RecordType(int line, int column) {
+        super(line, column);
+        this.fields = new ArrayList<>();
     }
 
     private List<RecordField> getFields(){
         return new ArrayList<>(fields);
     }
 
-    private void addField(RecordField field){
+    public void addField(RecordField field){
         this.fields.add(field);
     }
 

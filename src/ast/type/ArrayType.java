@@ -1,13 +1,11 @@
 package ast.type;
 
-import ast.AbstractAstNode;
-
-public class Array extends AbstractType {
+public class ArrayType extends AbstractType {
 
     private int size;
     private Type ofType;
 
-    public Array(int size, Type ofType, int line, int column) {
+    public ArrayType(int size, Type ofType, int line, int column) {
         super(line, column);
         this.size = size;
         this.ofType = ofType;

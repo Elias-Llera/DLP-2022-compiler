@@ -1,14 +1,15 @@
 package ast.expression.unary;
 
 import ast.expression.Expression;
+import ast.expression.unary.UnaryOperation;
 import ast.type.Type;
 
-public class Cast extends UnaryOperation{
+public class Cast extends UnaryOperation {
 
     private Type type;
 
-    public Cast(Type type, String operator, Expression expression, int line, int column) {
-        super(operator, expression, line, column);
+    public Cast(Type type, Expression expression, int line, int column) {
+        super(expression, line, column);
         this.type = type;
     }
 

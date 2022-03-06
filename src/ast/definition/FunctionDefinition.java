@@ -17,6 +17,12 @@ public class FunctionDefinition extends AbstractDefinition{
         this.variableStatements = variableStatements;
     }
 
+    public FunctionDefinition(String name, Type type, int line, int column) {
+        super(name, type, line, column);
+        this.functionStatements = new ArrayList<>();
+        this.variableStatements = new ArrayList<>();
+    }
+
     public List<VariableDefinition> getFunctionVariables(){
         return new ArrayList<VariableDefinition>(variableStatements);
     }
@@ -25,11 +31,11 @@ public class FunctionDefinition extends AbstractDefinition{
         return new ArrayList<Statement>(functionStatements);
     }
 
-    public void addStatement(Statement statement){
-        this.functionStatements.add(statement);
+    public void addStatements(List<Statement> statements){
+        this.functionStatements.addAll(statements);
     }
 
-    public void addVariableDefinition(VariableDefinition variableDefinition){
-        this.variableStatements.add(variableDefinition);
+    public void addVariableDefinitions(List<VariableDefinition> variableDefinitions){
+        this.variableStatements.addAll(variableDefinitions);
     }
 }

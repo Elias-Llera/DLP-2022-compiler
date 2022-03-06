@@ -17,29 +17,75 @@ import parser.*;
  */
 
 program returns [AstNode ast]:
-    expression{ $ast = $expression.ast; }
+    type{ $ast = $type.ast; }
     ;
 
-variable_definition: ID (',' ID)* ':' type ';'
+variable_definition returns [ List<VariableDefinition> ast = new ArrayList<>() ] locals [List<String> names = new ArrayList<>()] :
+    id1=ID { $names.add($id1.text); } (',' id2=ID{ $names.add($id2.text); })* ':' type ';'
+    { $names.forEach( name-> $ast.add(new VariableDefinition(name, $type.ast, $id1.getLine(), $id1.getCharPositionInLine()+1))); }
 ;
 
-funtion_definition: 'def' ID '(' (ID ':' built_in_type (',' ID ':' built_in_type)*)? ')' ':' type? '{' variable_definition* statement* '}'
+funtion_definition returns [ FunctionDefinition ast ] locals [ List<VariableDefinition> variableDefinitions = new ArrayList<>() ]:
+    'def' idFunction=ID
+    '(' (id1=ID ':' t1=built_in_type { $variableDefinitions.add(new VariableDefinition($id1.text, $t1.ast, $id1.getLine(), $id1.getCharPositionInLine()+1)); }
+    (',' id2=ID ':' t2=built_in_type { $variableDefinitions.add(new VariableDefinition($id2.text, $t2.ast, $id2.getLine(), $id2.getCharPositionInLine()+1)); })*)? ')'
+    ':' type? { $ast = new FunctionDefinition($idFunction.text, $type.ast, $idFunction.getLine(), $idFunction.getCharPositionInLine()+1); }
+    '{' (variable_definition {$ast.addVariableDefinitions($variable_definition.ast);} )* (statement {$ast.addStatements($statement.ast);} )* '}'
+    {
+        $ast.addVariableDefinitions($variableDefinitions);
+    }
 ;
 
-statement: 'print' expression (',' expression)* ';'
+statement returns [ List<Statement> ast = new ArrayList<>() ] :
+           'print' ex1=expression { $ast.add(new Print($ex1.ast, $ex1.ast.getLine(), $ex1.ast.getColumn())); }
+                (',' ex2=expression { $ast.add(new Print($ex2.ast, $ex2.ast.getLine(), $ex2.ast.getColumn())); })* ';'
          | 'input' expression ';'
-         | expression '=' expression ';'
-         | 'if' expression ':' body? ('else' body?)?
-         | 'while' expression ':' body?
+         {
+            $ast.add(new Input($expression.ast, $expression.ast.getLine(), $expression.ast.getColumn()));
+         }
+         | ex1=expression '=' ex2=expression ';'
+         {
+            $ast.add(new Assignment($ex1.ast, $ex2.ast, $ex1.ast.getLine(), $ex1.ast.getColumn()));
+         }
+         | 'if' expression ':' b1=body ('else' b2=body)?
+         {
+            IfElse ifElse;
+            if($b2.ast != null){
+                ifElse = new IfElse($expression.ast, $b1.ast, $b2.ast, $expression.ast.getLine(), $expression.ast.getColumn());
+            } else {
+                ifElse = new IfElse($expression.ast, $b1.ast, $expression.ast.getLine(), $expression.ast.getColumn());
+            }
+            $ast.add(ifElse);
+         }
+         | 'while' expression ':' body
+         {
+            $ast.add(new While($expression.ast, $body.ast, $expression.ast.getLine(), $expression.ast.getColumn()));
+         }
          | 'return' expression ';'
-         | /* Function|procedure **/ ID '(' (expression (','expression)*)? ')' ';'
+         {
+            $ast.add(new Return($expression.ast, $expression.ast.getLine(), $expression.ast.getColumn()));
+         }
+         | /* Function invocation**/ ID {
+                                    int line, column;
+                                    line = $ID.getLine();
+                                    column = $ID.getCharPositionInLine()+1;
+                                    FunctionInvocation functionInvocation = new FunctionInvocation(
+                                                                                new Variable($ID.text, line, column),
+                                                                                line, column);
+                               }
+            '(' (ex1=expression { functionInvocation.addParameter($ex1.ast); }
+                (','ex2=expression { functionInvocation.addParameter($ex2.ast); } )*)? ')'';'
+            {
+                $ast.add(functionInvocation);
+            }
          ;
 
-body: '{' statement* '}'
-    | statement
+body returns [ List<Statement> ast = new ArrayList<>() ] :
+    '{' (statement { $ast.addAll($statement.ast); } )* '}'
+    | statement { $ast.addAll($statement.ast); }
     ;
 
-expression returns [ Expression ast ] :
+expression returns [ Expression ast ]:
             INT_CONSTANT
             {
                 $ast = new IntLiteral(LexerHelper.lexemeToInt($INT_CONSTANT.text),
@@ -57,10 +103,22 @@ expression returns [ Expression ast ] :
             }
           | ID
             {
-             $ast = new Variable($ID.text,
-                $ID.getLine(), $ID.getCharPositionInLine()+1);
+                $ast = new Variable($ID.text,
+                   $ID.getLine(), $ID.getCharPositionInLine()+1);
             }
-          | /* Function **/ ID '(' (expression (','expression)*)? ')'
+          | /* Function invocation**/ ID {
+                                    int line, column;
+                                    line = $ID.getLine();
+                                    column = $ID.getCharPositionInLine()+1;
+                                    FunctionInvocation functionInvocation = new FunctionInvocation(
+                                                                                new Variable($ID.text, line, column),
+                                                                                line, column);
+                               }
+            '(' (ex1=expression { functionInvocation.addParameter($ex1.ast); }
+                (','ex2=expression { functionInvocation.addParameter($ex2.ast); } )*)? ')'
+            {
+                $ast = functionInvocation;
+            }
           | '(' expression ')'
             {
                 $ast = $expression.ast;
@@ -70,14 +128,26 @@ expression returns [ Expression ast ] :
                 $ast = new ArrayAccess($ex1.ast, $ex2.ast,
                     $ex1.ast.getLine(), $ex1.ast.getColumn());
             }
-          | expression '.' ID
+          | ex=expression '.' ID
             {
-                $ast = new FieldAccess($expression.ast, $ID.text,
-                    $expression.ast.getLine(), $expression.ast.getColumn());
+                $ast = new FieldAccess($ex.ast, $ID.text,
+                    $ex.ast.getLine(), $ex.ast.getColumn());
             }
           | '(' built_in_type ')' expression
+            {
+                $ast = new Cast($built_in_type.ast, $expression.ast,
+                    $expression.ast.getLine(), $expression.ast.getColumn());
+            }
           | '-' expression
+            {
+                $ast = new UnaryMinus($expression.ast,
+                    $expression.ast.getLine(), $expression.ast.getColumn());
+            }
           | '!' expression
+            {
+                $ast = new Negation($expression.ast,
+                    $expression.ast.getLine(), $expression.ast.getColumn());
+            }
           | ex1=expression OP=('*' | '/' | '%') ex2=expression
             {
                 $ast = new Arithmetic($ex1.ast, $OP.text, $ex2.ast,
@@ -100,14 +170,36 @@ expression returns [ Expression ast ] :
             }
           ;
 
-built_in_type : 'char'
+built_in_type returns [ Type ast ]:
+               'char'
+                {
+                    $ast = CharType.getInstance();
+                }
               | 'int'
+                {
+                    $ast = IntegerType.getInstance();
+                }
               | 'double'
+                {
+                    $ast = DoubleType.getInstance();
+                }
               ;
 
-type: built_in_type
-    | '[' INT_CONSTANT ']' type
-    | 'struct' '{' (ID':' type';')* '}'
+type returns [ Type ast ]:
+    built_in_type
+    {
+        $ast = $built_in_type.ast;
+    }
+    | lineMarker='[' INT_CONSTANT ']' type
+    {
+        $ast = new ArrayType(LexerHelper.lexemeToInt($INT_CONSTANT.text), $type.ast,
+            $lineMarker.getLine(), $lineMarker.getCharPositionInLine()+1);
+    }
+    | struct_keyword='struct' { RecordType record = new RecordType($struct_keyword.getLine(), $struct_keyword.getCharPositionInLine()+1); }
+        '{' (ID':' type';' { record.addField(new RecordField($type.ast, $ID.text)); } ) * '}'
+      {
+        $ast = record;
+      }
     ;
 
 
