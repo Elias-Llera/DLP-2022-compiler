@@ -12,12 +12,22 @@ import ast.type.*;
 import parser.*;
 }
 
-/*program: (variable_definition | funtion_definition)* funtion_definition EOF
-       ;
- */
+program returns [ Program ast ] locals [ List<Definition> definitions = new ArrayList<>() ]:
+    (definition { $definitions.addAll($definition.ast); } )* function_definition { $definitions.add($function_definition.ast); } EOF
+    {
+        $ast = new Program($definitions, 0, 0);
+    }
+    ;
 
-program returns [AstNode ast]:
-    type{ $ast = $type.ast; }
+definition returns [ List<Definition> ast = new ArrayList<>() ] :
+       variable_definition
+       {
+        $ast.addAll($variable_definition.ast);
+       }
+     | function_definition
+     {
+        $ast.add($function_definition.ast);
+     }
     ;
 
 variable_definition returns [ List<VariableDefinition> ast = new ArrayList<>() ] locals [List<String> names = new ArrayList<>()] :
@@ -25,13 +35,23 @@ variable_definition returns [ List<VariableDefinition> ast = new ArrayList<>() ]
     { $names.forEach( name-> $ast.add(new VariableDefinition(name, $type.ast, $id1.getLine(), $id1.getCharPositionInLine()+1))); }
 ;
 
-funtion_definition returns [ FunctionDefinition ast ] locals [ List<VariableDefinition> variableDefinitions = new ArrayList<>() ]:
+function_definition returns [ FunctionDefinition ast ] locals [ List<VariableDefinition> variableDefinitions = new ArrayList<>() ]:
     'def' idFunction=ID
     '(' (id1=ID ':' t1=built_in_type { $variableDefinitions.add(new VariableDefinition($id1.text, $t1.ast, $id1.getLine(), $id1.getCharPositionInLine()+1)); }
     (',' id2=ID ':' t2=built_in_type { $variableDefinitions.add(new VariableDefinition($id2.text, $t2.ast, $id2.getLine(), $id2.getCharPositionInLine()+1)); })*)? ')'
-    ':' type? { $ast = new FunctionDefinition($idFunction.text, $type.ast, $idFunction.getLine(), $idFunction.getCharPositionInLine()+1); }
+    ':' type?
+    {
+        FunctionType funcType;
+        if($type.ast != null){
+            funcType = new FunctionType($type.ast, $ast.getLine(), $ast.getColumn());
+        } else {
+            funcType = new FunctionType(VoidType.getInstance(), $ast.getLine(), $ast.getColumn());
+        }
+        $ast = new FunctionDefinition($idFunction.text, funcType, $idFunction.getLine(), $idFunction.getCharPositionInLine()+1);
+    }
     '{' (variable_definition {$ast.addVariableDefinitions($variable_definition.ast);} )* (statement {$ast.addStatements($statement.ast);} )* '}'
     {
+        $variableDefinitions.forEach(varDef->funcType.addParameter(varDef));
         $ast.addVariableDefinitions($variableDefinitions);
     }
 ;

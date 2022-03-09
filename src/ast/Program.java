@@ -14,6 +14,11 @@ public class Program extends AbstractAstNode{
         this.program = program;
     }
 
+    public Program(int line, int column) {
+        super(line, column);
+        this.program = new ArrayList<>();
+    }
+
     public List<Definition> getProgram(){
         return new ArrayList<>(program);
     }
