@@ -7,4 +7,9 @@ public class VariableDefinition extends AbstractDefinition{
     public VariableDefinition(String name, Type type, int line, int column) {
         super(name, type, line, column);
     }
+
+    @Override
+    public String toString() {
+        return getType().toString() + ": " + getName() ;
+    }
 }

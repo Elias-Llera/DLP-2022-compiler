@@ -18,4 +18,9 @@ public class Return extends AbstractStatement {
     public void setExpression(Expression expression) {
         this.expression = expression;
     }
+
+    @Override
+    public String toString(){
+        return "Return " + expression.toString();
+    }
 }

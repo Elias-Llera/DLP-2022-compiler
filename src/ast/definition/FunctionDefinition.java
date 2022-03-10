@@ -6,7 +6,7 @@ import ast.type.Type;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FunctionDefinition extends AbstractDefinition{
+public class FunctionDefinition extends AbstractDefinition {
 
     private List<Statement> functionStatements;
     private List<VariableDefinition> variableStatements;
@@ -23,19 +23,31 @@ public class FunctionDefinition extends AbstractDefinition{
         this.variableStatements = new ArrayList<>();
     }
 
-    public List<VariableDefinition> getFunctionVariables(){
+    public List<VariableDefinition> getFunctionVariables() {
         return new ArrayList<VariableDefinition>(variableStatements);
     }
 
-    public List<Statement> getFunctionStatements(){
+    public List<Statement> getFunctionStatements() {
         return new ArrayList<Statement>(functionStatements);
     }
 
-    public void addStatements(List<Statement> statements){
+    public void addStatements(List<Statement> statements) {
         this.functionStatements.addAll(statements);
     }
 
-    public void addVariableDefinitions(List<VariableDefinition> variableDefinitions){
+    public void addVariableDefinitions(List<VariableDefinition> variableDefinitions) {
         this.variableStatements.addAll(variableDefinitions);
+    }
+
+    @Override
+    public String toString() {
+        String str = getName() + ": " + getType().toString() + "\n";
+        for (VariableDefinition var : variableStatements) {
+            str.concat(var.toString() + "\n");
+        }
+        for( Statement statement : functionStatements){
+            str.concat(statement.toString() + "\n");
+        }
+        return str;
     }
 }

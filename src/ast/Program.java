@@ -27,4 +27,10 @@ public class Program extends AbstractAstNode{
         this.program.add(definition);
     }
 
+    @Override
+    public String toString() {
+        return "Program{" +
+                "program=" + program +
+                '}';
+    }
 }

@@ -26,4 +26,9 @@ public class ArrayAccess extends AbstractExpression{
     public void setRightExpression(Expression rightExpression) {
         this.rightExpression = rightExpression;
     }
+
+    @Override
+    public String toString(){
+        return leftExpression.toString() + "[" + rightExpression + "]";
+    }
 }

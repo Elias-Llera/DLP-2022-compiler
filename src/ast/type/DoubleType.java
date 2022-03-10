@@ -14,4 +14,9 @@ public class DoubleType extends AbstractType {
         }
         return instance;
     }
+
+    @Override
+    public String toString(){
+        return "Double";
+    }
 }

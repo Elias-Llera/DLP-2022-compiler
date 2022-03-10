@@ -48,4 +48,17 @@ public class IfElse extends AbstractStatement {
     public void addStatementToElseBody(Statement statement){
         elseBody.add(statement);
     }
+
+    @Override
+    public String toString(){
+        String str = "if " + condition.toString() + " :\n";
+        for (Statement stmnt: ifBody) {
+            str.concat(stmnt.toString() + "\n");
+        }
+        str.concat("else: \n");
+        for (Statement stmnt: elseBody) {
+            str.concat(stmnt.toString() + "\n");
+        }
+        return str;
+    }
 }

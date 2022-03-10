@@ -29,4 +29,9 @@ public class Assignment extends AbstractStatement {
     public void setLeftSideExpression(Expression leftSideExpression) {
         this.leftSideExpression = leftSideExpression;
     }
+
+    @Override
+    public String toString(){
+        return leftSideExpression.toString() + " = " + rightSideExpression.toString();
+    }
 }

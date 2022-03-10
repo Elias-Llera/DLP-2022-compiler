@@ -14,4 +14,10 @@ public class CharType extends AbstractType{
         }
         return instance;
     }
+
+    @Override
+    public String toString(){
+        return "Char";
+    }
+
 }

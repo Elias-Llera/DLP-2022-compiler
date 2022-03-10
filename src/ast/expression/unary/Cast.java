@@ -1,24 +1,28 @@
 package ast.expression.unary;
 
 import ast.expression.Expression;
-import ast.expression.unary.UnaryOperation;
 import ast.type.Type;
 
 public class Cast extends UnaryOperation {
 
-    private Type type;
+    private Type castType;
 
     public Cast(Type type, Expression expression, int line, int column) {
         super(expression, line, column);
-        this.type = type;
+        this.castType = type;
     }
 
-
-    private Type getType(){
-        return type;
+    private Type getCastType(){
+        return castType;
     }
 
-    private void setType(Type type){
-        this.type = type;
+    private void setCastType(Type castType){
+        this.castType = castType;
     }
+
+    @Override
+    public String toString(){
+        return "(" + castType.toString() + ")" + getExpression().toString();
+    }
+
 }

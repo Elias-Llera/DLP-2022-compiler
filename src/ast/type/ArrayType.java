@@ -26,4 +26,9 @@ public class ArrayType extends AbstractType {
     public void setOfType(Type ofType) {
         this.ofType = ofType;
     }
+
+    @Override
+    public String toString(){
+        return "[" + size + "]" + ofType.toString();
+    }
 }

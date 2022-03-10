@@ -38,4 +38,19 @@ public class FunctionInvocation extends AbstractAstNode implements Expression, S
         this.parameters.add(parameter);
     }
 
+    @Override
+    public String toString(){
+        String str = variable.toString() + "(";
+        if(!parameters.isEmpty()){
+            str.concat(parameters.get(0).toString());
+            if(parameters.size()>1){
+                for (int i = 1; i<parameters.size(); i++){
+                    str.concat("," + parameters.get(i).toString());
+                }
+            }
+        }
+        str.concat(")");
+        return str;
+    }
+
 }

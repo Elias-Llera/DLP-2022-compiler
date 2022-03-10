@@ -20,4 +20,9 @@ public class CharLiteral extends AbstractExpression {
     public void setValue(char value) {
         this.value = value;
     }
+
+    @Override
+    public String toString(){
+        return Character.toString(value);
+    }
 }

@@ -35,18 +35,13 @@ variable_definition returns [ List<VariableDefinition> ast = new ArrayList<>() ]
     { $names.forEach( name-> $ast.add(new VariableDefinition(name, $type.ast, $id1.getLine(), $id1.getCharPositionInLine()+1))); }
 ;
 
-function_definition returns [ FunctionDefinition ast ] locals [ List<VariableDefinition> variableDefinitions = new ArrayList<>() ]:
+function_definition returns [ FunctionDefinition ast ] locals [ List<VariableDefinition> variableDefinitions = new ArrayList<>(), Type returnType = VoidType.getInstance() ]:
     'def' idFunction=ID
     '(' (id1=ID ':' t1=built_in_type { $variableDefinitions.add(new VariableDefinition($id1.text, $t1.ast, $id1.getLine(), $id1.getCharPositionInLine()+1)); }
     (',' id2=ID ':' t2=built_in_type { $variableDefinitions.add(new VariableDefinition($id2.text, $t2.ast, $id2.getLine(), $id2.getCharPositionInLine()+1)); })*)? ')'
-    ':' type?
+    ':' (type { $returnType = $type.ast; } )?
     {
-        FunctionType funcType;
-        if($type.ast != null){
-            funcType = new FunctionType($type.ast, $ast.getLine(), $ast.getColumn());
-        } else {
-            funcType = new FunctionType(VoidType.getInstance(), $ast.getLine(), $ast.getColumn());
-        }
+        FunctionType funcType = new FunctionType($returnType, $idFunction.getLine(), $idFunction.getCharPositionInLine()+1);
         $ast = new FunctionDefinition($idFunction.text, funcType, $idFunction.getLine(), $idFunction.getCharPositionInLine()+1);
     }
     '{' (variable_definition {$ast.addVariableDefinitions($variable_definition.ast);} )* (statement {$ast.addStatements($statement.ast);} )* '}'
@@ -180,7 +175,7 @@ expression returns [ Expression ast ]:
             }
           | ex1=expression OP=('>='| '>' | '<=' | '<' | '!=' | '==') ex2=expression
             {
-                $ast = new Comparisson($ex1.ast, $OP.text, $ex2.ast,
+                $ast = new Comparison($ex1.ast, $OP.text, $ex2.ast,
                     $ex1.ast.getLine(), $ex1.ast.getColumn());
             }
           | ex1=expression OP=('&&' | '||') ex2=expression

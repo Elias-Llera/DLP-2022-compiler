@@ -32,4 +32,13 @@ public class While extends AbstractStatement {
     public void addStatementToBody(Statement statement) {
         this.body.add(statement);
     }
+
+    @Override
+    public String toString(){
+        String str = "While " + condition.toString() + " : \n";
+        for (Statement stmnt: body) {
+            str.concat(stmnt.toString() + "\n");
+        }
+        return str;
+    }
 }
