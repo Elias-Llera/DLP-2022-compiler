@@ -9,22 +9,22 @@ import java.util.List;
 public class FunctionDefinition extends AbstractDefinition {
 
     private List<Statement> functionStatements;
-    private List<VariableDefinition> variableStatements;
+    private List<VariableDefinition> variableDefinitions;
 
-    public FunctionDefinition(String name, Type type, List<Statement> functionStatements, List<VariableDefinition> variableStatements, int line, int column) {
+    public FunctionDefinition(String name, Type type, List<Statement> functionStatements, List<VariableDefinition> variableDefinitions, int line, int column) {
         super(name, type, line, column);
         this.functionStatements = functionStatements;
-        this.variableStatements = variableStatements;
+        this.variableDefinitions = variableDefinitions;
     }
 
     public FunctionDefinition(String name, Type type, int line, int column) {
         super(name, type, line, column);
         this.functionStatements = new ArrayList<>();
-        this.variableStatements = new ArrayList<>();
+        this.variableDefinitions = new ArrayList<>();
     }
 
     public List<VariableDefinition> getFunctionVariables() {
-        return new ArrayList<VariableDefinition>(variableStatements);
+        return new ArrayList<VariableDefinition>(variableDefinitions);
     }
 
     public List<Statement> getFunctionStatements() {
@@ -36,13 +36,13 @@ public class FunctionDefinition extends AbstractDefinition {
     }
 
     public void addVariableDefinitions(List<VariableDefinition> variableDefinitions) {
-        this.variableStatements.addAll(variableDefinitions);
+        this.variableDefinitions.addAll(variableDefinitions);
     }
 
     @Override
     public String toString() {
         String str = getName() + ": " + getType().toString() + "\n";
-        for (VariableDefinition var : variableStatements) {
+        for (VariableDefinition var : variableDefinitions) {
             str.concat(var.toString() + "\n");
         }
         for( Statement statement : functionStatements){
