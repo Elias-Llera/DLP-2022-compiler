@@ -41,8 +41,22 @@ definition returns [ List<Definition> ast = new ArrayList<>() ] :
     ;
 
 variable_definition returns [ List<VariableDefinition> ast = new ArrayList<>() ] locals [List<String> names = new ArrayList<>()] :
-    id1=ID { $names.add($id1.text); } (',' id2=ID{ $names.add($id2.text); })* ':' type ';'
-    { $names.forEach( name-> $ast.add(new VariableDefinition(name, $type.ast, $id1.getLine(), $id1.getCharPositionInLine()+1))); }
+    id1=ID
+    {
+        if($names.contains($id1.text))
+            new ErrorType("There cannot be two variables with the same name", $id1.getLine(), $id1.getCharPositionInLine()+1);
+        $names.add($id1.text);
+    }
+    (',' id2=ID
+    {
+        if($names.contains($id2.text))
+                new ErrorType("There cannot be two variables with the same name", $id2.getLine(), $id2.getCharPositionInLine()+1);
+        $names.add($id2.text);
+    })*
+    ':' type ';'
+    {
+        $names.forEach( name-> $ast.add(new VariableDefinition(name, $type.ast, $id1.getLine(), $id1.getCharPositionInLine()+1)));
+    }
 ;
 
 function_definition returns [ FunctionDefinition ast ] locals [ List<VariableDefinition> paramDefinitions = new ArrayList<>(), Type returnType = VoidType.getInstance() ]:
@@ -204,7 +218,7 @@ built_in_type returns [ Type ast ]:
                 }
               ;
 
-type returns [ Type ast ] locals [List<String> fieldIds = new ArrayList<>()]:
+type returns [ Type ast ] locals [List<Token> fieldIds = new ArrayList<>(), List<String> fieldNames = new ArrayList()]:
     built_in_type
     {
         $ast = $built_in_type.ast;
@@ -215,11 +229,34 @@ type returns [ Type ast ] locals [List<String> fieldIds = new ArrayList<>()]:
             $lineMarker.getLine(), $lineMarker.getCharPositionInLine()+1);
     }
     | struct_keyword='struct' { RecordType record = new RecordType($struct_keyword.getLine(), $struct_keyword.getCharPositionInLine()+1); }
-        '{' (id1=ID{$fieldIds.add($id1.text);} (',' id2=ID{$fieldIds.add($id2.text);})*':' type';'
-        { $fieldIds.forEach(id -> record.addField(new RecordField($type.ast, id))); $fieldIds = new ArrayList<>(); } ) * '}'
-      {
-        $ast = record;
-      }
+        '{'
+        (id1=ID
+        {
+            if($fieldNames.contains($id1.text)){
+                new ErrorType("There cannot be two fields with the same name", $id1.getLine(), $id1.getCharPositionInLine()+1);
+                ErrorHandler.getInstance().showErrors(System.out);
+            }
+            $fieldIds.add($id1);
+            $fieldNames.add($id1.text);
+        }
+        (',' id2=ID
+        {
+            if($fieldNames.contains($id2.text)){
+                new ErrorType("There cannot be two fields with the same name", $id2.getLine(), $id2.getCharPositionInLine()+1);
+                ErrorHandler.getInstance().showErrors(System.out);
+            }
+            $fieldIds.add($id2);
+            $fieldNames.add($id2.text);
+        })*
+        ':' type';'
+        {
+            $fieldIds.forEach(id -> record.addField(new RecordField($type.ast, id.getText(), id.getLine(), id.getCharPositionInLine()+1)));
+            $fieldIds = new ArrayList<>();
+        }
+        )* '}'
+        {
+            $ast = record;
+        }
     ;
 
 

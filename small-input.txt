@@ -1,5 +1,5 @@
 struct {
     	integer: int;
-    	character: char;
-    	array: [10][5]int;
+    	integer: char;
+    	character, integer: char;
   	}

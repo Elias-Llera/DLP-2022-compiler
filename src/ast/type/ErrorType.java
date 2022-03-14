@@ -7,6 +7,7 @@ public class ErrorType extends AbstractType{
     public ErrorType(String message, int line, int column) {
         super(line, column);
         this.message = message;
+        ErrorHandler.getInstance().addError(this);
     }
 
     @Override

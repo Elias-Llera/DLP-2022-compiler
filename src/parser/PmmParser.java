@@ -1,4 +1,4 @@
-// Generated from C:/Users/Elías Llera/IdeaProjects/DLP-compiler/src/parser\Pmm.g4 by ANTLR 4.9.2
+// Generated from C:/Users/Elías/IdeaProjects/DLP compiler/src/parser\Pmm.g4 by ANTLR 4.9.2
 package parser;
 
 import ast.*;
@@ -381,7 +381,11 @@ public class PmmParser extends Parser {
 			{
 			setState(66);
 			((Variable_definitionContext)_localctx).id1 = match(ID);
-			 _localctx.names.add((((Variable_definitionContext)_localctx).id1!=null?((Variable_definitionContext)_localctx).id1.getText():null)); 
+
+			        if(_localctx.names.contains((((Variable_definitionContext)_localctx).id1!=null?((Variable_definitionContext)_localctx).id1.getText():null)))
+			            new ErrorType("There cannot be two variables with the same name", ((Variable_definitionContext)_localctx).id1.getLine(), ((Variable_definitionContext)_localctx).id1.getCharPositionInLine()+1);
+			        _localctx.names.add((((Variable_definitionContext)_localctx).id1!=null?((Variable_definitionContext)_localctx).id1.getText():null));
+			    
 			setState(73);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
@@ -392,7 +396,11 @@ public class PmmParser extends Parser {
 				match(T__7);
 				setState(69);
 				((Variable_definitionContext)_localctx).id2 = match(ID);
-				 _localctx.names.add((((Variable_definitionContext)_localctx).id2!=null?((Variable_definitionContext)_localctx).id2.getText():null)); 
+
+				        if(_localctx.names.contains((((Variable_definitionContext)_localctx).id2!=null?((Variable_definitionContext)_localctx).id2.getText():null)))
+				                new ErrorType("There cannot be two variables with the same name", ((Variable_definitionContext)_localctx).id2.getLine(), ((Variable_definitionContext)_localctx).id2.getCharPositionInLine()+1);
+				        _localctx.names.add((((Variable_definitionContext)_localctx).id2!=null?((Variable_definitionContext)_localctx).id2.getText():null));
+				    
 				}
 				}
 				setState(75);
@@ -405,7 +413,9 @@ public class PmmParser extends Parser {
 			((Variable_definitionContext)_localctx).type = type();
 			setState(78);
 			match(T__8);
-			 _localctx.names.forEach( name-> _localctx.ast.add(new VariableDefinition(name, ((Variable_definitionContext)_localctx).type.ast, ((Variable_definitionContext)_localctx).id1.getLine(), ((Variable_definitionContext)_localctx).id1.getCharPositionInLine()+1))); 
+
+			        _localctx.names.forEach( name-> _localctx.ast.add(new VariableDefinition(name, ((Variable_definitionContext)_localctx).type.ast, ((Variable_definitionContext)_localctx).id1.getLine(), ((Variable_definitionContext)_localctx).id1.getCharPositionInLine()+1)));
+			    
 			}
 		}
 		catch (RecognitionException re) {
@@ -1343,7 +1353,8 @@ public class PmmParser extends Parser {
 
 	public static class TypeContext extends ParserRuleContext {
 		public Type ast;
-		public List<String> fieldIds = new ArrayList<>();
+		public List<Token> fieldIds = new ArrayList<>();
+		public List<String> fieldNames = new ArrayList();
 		public Built_in_typeContext built_in_type;
 		public Token lineMarker;
 		public Token INT_CONSTANT;
@@ -1429,7 +1440,14 @@ public class PmmParser extends Parser {
 					{
 					setState(316);
 					((TypeContext)_localctx).id1 = match(ID);
-					_localctx.fieldIds.add((((TypeContext)_localctx).id1!=null?((TypeContext)_localctx).id1.getText():null));
+
+					            if(_localctx.fieldNames.contains((((TypeContext)_localctx).id1!=null?((TypeContext)_localctx).id1.getText():null))){
+					                new ErrorType("There cannot be two fields with the same name", ((TypeContext)_localctx).id1.getLine(), ((TypeContext)_localctx).id1.getCharPositionInLine()+1);
+					                ErrorHandler.getInstance().showErrors(System.out);
+					            }
+					            _localctx.fieldIds.add(((TypeContext)_localctx).id1);
+					            _localctx.fieldNames.add((((TypeContext)_localctx).id1!=null?((TypeContext)_localctx).id1.getText():null));
+					        
 					setState(323);
 					_errHandler.sync(this);
 					_la = _input.LA(1);
@@ -1440,7 +1458,14 @@ public class PmmParser extends Parser {
 						match(T__7);
 						setState(319);
 						((TypeContext)_localctx).id2 = match(ID);
-						_localctx.fieldIds.add((((TypeContext)_localctx).id2!=null?((TypeContext)_localctx).id2.getText():null));
+
+						            if(_localctx.fieldNames.contains((((TypeContext)_localctx).id2!=null?((TypeContext)_localctx).id2.getText():null))){
+						                new ErrorType("There cannot be two fields with the same name", ((TypeContext)_localctx).id2.getLine(), ((TypeContext)_localctx).id2.getCharPositionInLine()+1);
+						                ErrorHandler.getInstance().showErrors(System.out);
+						            }
+						            _localctx.fieldIds.add(((TypeContext)_localctx).id2);
+						            _localctx.fieldNames.add((((TypeContext)_localctx).id2!=null?((TypeContext)_localctx).id2.getText():null));
+						        
 						}
 						}
 						setState(325);
@@ -1453,7 +1478,10 @@ public class PmmParser extends Parser {
 					((TypeContext)_localctx).type = type();
 					setState(328);
 					match(T__8);
-					 _localctx.fieldIds.forEach(id -> record.addField(new RecordField(((TypeContext)_localctx).type.ast, id))); ((TypeContext)_localctx).fieldIds =  new ArrayList<>(); 
+
+					            _localctx.fieldIds.forEach(id -> record.addField(new RecordField(((TypeContext)_localctx).type.ast, id.getText(), id.getLine(), id.getCharPositionInLine()+1)));
+					            ((TypeContext)_localctx).fieldIds =  new ArrayList<>();
+					        
 					}
 					}
 					setState(335);
@@ -1463,8 +1491,8 @@ public class PmmParser extends Parser {
 				setState(336);
 				match(T__6);
 
-				        ((TypeContext)_localctx).ast =  record;
-				      
+				            ((TypeContext)_localctx).ast =  record;
+				        
 				}
 				break;
 			default:
