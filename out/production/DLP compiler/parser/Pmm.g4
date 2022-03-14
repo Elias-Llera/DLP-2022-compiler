@@ -13,11 +13,21 @@ import parser.*;
 }
 
 program returns [ Program ast ] locals [ List<Definition> definitions = new ArrayList<>() ]:
-    (definition { $definitions.addAll($definition.ast); } )* function_definition { $definitions.add($function_definition.ast); } EOF
+    (definition { $definitions.addAll($definition.ast); } )* main_definition { $definitions.add($main_definition.ast); } EOF
     {
         $ast = new Program($definitions, 0, 0);
     }
     ;
+
+main_definition returns [ FunctionDefinition ast ] :
+    'def' idFunction='main' '(' ')'
+    ':'
+    {
+        FunctionType funcType = new FunctionType(VoidType.getInstance(), $idFunction.getLine(), $idFunction.getCharPositionInLine()+1);
+        $ast = new FunctionDefinition($idFunction.text, funcType, $idFunction.getLine(), $idFunction.getCharPositionInLine()+1);
+    }
+    '{' (variable_definition {$ast.addVariableDefinitions($variable_definition.ast);} )* (statement {$ast.addStatements($statement.ast);} )* '}'
+;
 
 definition returns [ List<Definition> ast = new ArrayList<>() ] :
        variable_definition
@@ -35,10 +45,10 @@ variable_definition returns [ List<VariableDefinition> ast = new ArrayList<>() ]
     { $names.forEach( name-> $ast.add(new VariableDefinition(name, $type.ast, $id1.getLine(), $id1.getCharPositionInLine()+1))); }
 ;
 
-function_definition returns [ FunctionDefinition ast ] locals [ List<VariableDefinition> variableDefinitions = new ArrayList<>(), Type returnType = VoidType.getInstance() ]:
+function_definition returns [ FunctionDefinition ast ] locals [ List<VariableDefinition> paramDefinitions = new ArrayList<>(), Type returnType = VoidType.getInstance() ]:
     'def' idFunction=ID
-    '(' (id1=ID ':' t1=built_in_type { $variableDefinitions.add(new VariableDefinition($id1.text, $t1.ast, $id1.getLine(), $id1.getCharPositionInLine()+1)); }
-    (',' id2=ID ':' t2=built_in_type { $variableDefinitions.add(new VariableDefinition($id2.text, $t2.ast, $id2.getLine(), $id2.getCharPositionInLine()+1)); })*)? ')'
+    '(' (id1=ID ':' t1=built_in_type { $paramDefinitions.add(new VariableDefinition($id1.text, $t1.ast, $id1.getLine(), $id1.getCharPositionInLine()+1)); }
+    (',' id2=ID ':' t2=built_in_type { $paramDefinitions.add(new VariableDefinition($id2.text, $t2.ast, $id2.getLine(), $id2.getCharPositionInLine()+1)); })*)? ')'
     ':' (type { $returnType = $type.ast; } )?
     {
         FunctionType funcType = new FunctionType($returnType, $idFunction.getLine(), $idFunction.getCharPositionInLine()+1);
@@ -46,12 +56,11 @@ function_definition returns [ FunctionDefinition ast ] locals [ List<VariableDef
     }
     '{' (variable_definition {$ast.addVariableDefinitions($variable_definition.ast);} )* (statement {$ast.addStatements($statement.ast);} )* '}'
     {
-        $variableDefinitions.forEach(varDef->funcType.addParameter(varDef));
-        $ast.addVariableDefinitions($variableDefinitions);
+        $paramDefinitions.forEach(varDef->funcType.addParameter(varDef));
     }
 ;
 
-statement returns [ List<Statement> ast = new ArrayList<>() ] :
+statement returns [ List<Statement> ast = new ArrayList<>() ] locals[List<Statement> elseBody = new ArrayList<>()]:
            'print' ex1=expression { $ast.add(new Print($ex1.ast, $ex1.ast.getLine(), $ex1.ast.getColumn())); }
                 (',' ex2=expression { $ast.add(new Print($ex2.ast, $ex2.ast.getLine(), $ex2.ast.getColumn())); })* ';'
          | 'input' expression ';'
@@ -62,14 +71,9 @@ statement returns [ List<Statement> ast = new ArrayList<>() ] :
          {
             $ast.add(new Assignment($ex1.ast, $ex2.ast, $ex1.ast.getLine(), $ex1.ast.getColumn()));
          }
-         | 'if' expression ':' b1=body ('else' b2=body)?
+         | 'if' expression ':' b1=body ('else' b2=body {$elseBody=$b2.ast;})?
          {
-            IfElse ifElse;
-            if($b2.ast != null){
-                ifElse = new IfElse($expression.ast, $b1.ast, $b2.ast, $expression.ast.getLine(), $expression.ast.getColumn());
-            } else {
-                ifElse = new IfElse($expression.ast, $b1.ast, $expression.ast.getLine(), $expression.ast.getColumn());
-            }
+            IfElse ifElse = new IfElse($expression.ast, $b1.ast, $elseBody, $expression.ast.getLine(), $expression.ast.getColumn());
             $ast.add(ifElse);
          }
          | 'while' expression ':' body
@@ -200,7 +204,7 @@ built_in_type returns [ Type ast ]:
                 }
               ;
 
-type returns [ Type ast ]:
+type returns [ Type ast ] locals [List<String> fieldIds = new ArrayList<>()]:
     built_in_type
     {
         $ast = $built_in_type.ast;
@@ -211,7 +215,8 @@ type returns [ Type ast ]:
             $lineMarker.getLine(), $lineMarker.getCharPositionInLine()+1);
     }
     | struct_keyword='struct' { RecordType record = new RecordType($struct_keyword.getLine(), $struct_keyword.getCharPositionInLine()+1); }
-        '{' (ID':' type';' { record.addField(new RecordField($type.ast, $ID.text)); } ) * '}'
+        '{' (id1=ID{$fieldIds.add($id1.text);} (',' id2=ID{$fieldIds.add($id2.text);})*':' type';'
+        { $fieldIds.forEach(id -> record.addField(new RecordField($type.ast, id))); $fieldIds = new ArrayList<>(); } ) * '}'
       {
         $ast = record;
       }

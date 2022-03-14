@@ -1,4 +1,4 @@
-// Generated from C:/Users/Elías/IdeaProjects/DLP compiler/src/parser\Pmm.g4 by ANTLR 4.9.2
+// Generated from C:/Users/Elías Llera/IdeaProjects/DLP-compiler/src/parser\Pmm.g4 by ANTLR 4.9.2
 package parser;
 
 import ast.*;
@@ -27,6 +27,12 @@ public interface PmmVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitProgram(PmmParser.ProgramContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link PmmParser#main_definition}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitMain_definition(PmmParser.Main_definitionContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link PmmParser#definition}.
 	 * @param ctx the parse tree

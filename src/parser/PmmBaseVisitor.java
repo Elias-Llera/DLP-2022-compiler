@@ -1,4 +1,4 @@
-// Generated from C:/Users/Elías/IdeaProjects/DLP compiler/src/parser\Pmm.g4 by ANTLR 4.9.2
+// Generated from C:/Users/Elías Llera/IdeaProjects/DLP-compiler/src/parser\Pmm.g4 by ANTLR 4.9.2
 package parser;
 
 import ast.*;
@@ -29,6 +29,13 @@ public class PmmBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements Pm
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
 	@Override public T visitProgram(PmmParser.ProgramContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitMain_definition(PmmParser.Main_definitionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
