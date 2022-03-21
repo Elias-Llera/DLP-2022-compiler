@@ -1,6 +1,7 @@
 package ast.expression.value;
 
 import ast.expression.AbstractExpression;
+import visitor.Visitor;
 
 public class IntLiteral extends AbstractExpression {
 
@@ -22,4 +23,10 @@ public class IntLiteral extends AbstractExpression {
     public String toString(){
         return Integer.toString(value);
     }
+
+    @Override
+    public <TP, TR> TR accept(Visitor<TP, TR> visitor, TP param) {
+        return visitor.visit(this, param);
+    }
+
 }

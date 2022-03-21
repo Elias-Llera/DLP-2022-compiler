@@ -1,6 +1,7 @@
 package ast.statement;
 
 import ast.expression.Expression;
+import visitor.Visitor;
 
 public class Input extends AbstractStatement{
 
@@ -22,5 +23,10 @@ public class Input extends AbstractStatement{
     @Override
     public String toString(){
         return "Input " + expression.toString();
+    }
+
+    @Override
+    public <TP, TR> TR accept(Visitor<TP, TR> visitor, TP param) {
+        return visitor.visit(this, param);
     }
 }

@@ -2,6 +2,7 @@ package ast.statement;
 
 import ast.expression.AbstractExpression;
 import ast.expression.Expression;
+import visitor.Visitor;
 
 public class Assignment extends AbstractStatement {
 
@@ -34,4 +35,10 @@ public class Assignment extends AbstractStatement {
     public String toString(){
         return leftSideExpression.toString() + " = " + rightSideExpression.toString();
     }
+
+    @Override
+    public <TP, TR> TR accept(Visitor<TP, TR> visitor, TP param) {
+        return visitor.visit(this, param);
+    }
+
 }

@@ -1,6 +1,7 @@
 package ast.expression.value;
 
 import ast.expression.AbstractExpression;
+import visitor.Visitor;
 
 import java.beans.Expression;
 
@@ -25,4 +26,10 @@ public class CharLiteral extends AbstractExpression {
     public String toString(){
         return Character.toString(value);
     }
+
+    @Override
+    public <TP, TR> TR accept(Visitor<TP, TR> visitor, TP param) {
+        return visitor.visit(this, param);
+    }
+
 }

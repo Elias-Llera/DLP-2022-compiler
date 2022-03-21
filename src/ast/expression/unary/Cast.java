@@ -2,6 +2,7 @@ package ast.expression.unary;
 
 import ast.expression.Expression;
 import ast.type.Type;
+import visitor.Visitor;
 
 public class Cast extends UnaryOperation {
 
@@ -12,7 +13,7 @@ public class Cast extends UnaryOperation {
         this.castType = type;
     }
 
-    private Type getCastType(){
+    public Type getCastType(){
         return castType;
     }
 
@@ -23,6 +24,11 @@ public class Cast extends UnaryOperation {
     @Override
     public String toString(){
         return "(" + castType.toString() + ")" + getExpression().toString();
+    }
+
+    @Override
+    public <TP, TR> TR accept(Visitor<TP, TR> visitor, TP param) {
+        return visitor.visit(this, param);
     }
 
 }

@@ -3,6 +3,7 @@ package ast.expression;
 import ast.AbstractAstNode;
 import ast.expression.value.Variable;
 import ast.statement.Statement;
+import visitor.Visitor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,6 +52,11 @@ public class FunctionInvocation extends AbstractAstNode implements Expression, S
         }
         str.concat(")");
         return str;
+    }
+
+    @Override
+    public <TP, TR> TR accept(Visitor<TP, TR> visitor, TP param) {
+        return visitor.visit(this, param);
     }
 
 }

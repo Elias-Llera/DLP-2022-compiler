@@ -1,5 +1,7 @@
 package ast.type;
 
+import visitor.Visitor;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,7 +19,7 @@ public class RecordType extends AbstractType{
         this.fields = new ArrayList<>();
     }
 
-    private List<RecordField> getFields(){
+    public List<RecordField> getFields(){
         return new ArrayList<>(fields);
     }
 
@@ -32,6 +34,11 @@ public class RecordType extends AbstractType{
             str.concat(field.toString() + "\n");
         }
         return str;
+    }
+
+    @Override
+    public <TP, TR> TR accept(Visitor<TP, TR> visitor, TP param) {
+        return visitor.visit(this, param);
     }
 
 }

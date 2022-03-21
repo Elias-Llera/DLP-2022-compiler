@@ -1,6 +1,7 @@
 package ast.type;
 
 import ast.AbstractAstNode;
+import visitor.Visitor;
 
 public class RecordField extends AbstractAstNode {
 
@@ -32,6 +33,11 @@ public class RecordField extends AbstractAstNode {
     @Override
     public String toString(){
         return name + ": " + type.toString();
+    }
+
+    @Override
+    public <TP, TR> TR accept(Visitor<TP, TR> visitor, TP param) {
+        return visitor.visit(this, param);
     }
 
 }

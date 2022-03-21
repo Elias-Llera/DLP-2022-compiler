@@ -2,6 +2,7 @@ package ast.expression.binary;
 
 import ast.expression.AbstractExpression;
 import ast.expression.Expression;
+import visitor.Visitor;
 
 public class Arithmetic extends BinaryOperation {
 
@@ -12,5 +13,10 @@ public class Arithmetic extends BinaryOperation {
     @Override
     public String toString() {
         return getLeftExpression().toString() + getOperator() + getRightExpression().toString();
+    }
+
+    @Override
+    public <TP, TR> TR accept(Visitor<TP, TR> visitor, TP param) {
+        return visitor.visit(this, param);
     }
 }

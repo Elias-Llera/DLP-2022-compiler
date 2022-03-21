@@ -1,6 +1,8 @@
 package ast;
 
-public class AbstractAstNode implements AstNode{
+import visitor.Visitor;
+
+public abstract class AbstractAstNode implements AstNode{
 
     private int line;
     private int column;
@@ -19,4 +21,5 @@ public class AbstractAstNode implements AstNode{
     public int getColumn() {
         return column;
     }
+
 }

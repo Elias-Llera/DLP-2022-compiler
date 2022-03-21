@@ -2,6 +2,7 @@ package ast.statement;
 
 import ast.expression.AbstractExpression;
 import ast.expression.Expression;
+import visitor.Visitor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,5 +41,10 @@ public class While extends AbstractStatement {
             str.concat(stmnt.toString() + "\n");
         }
         return str;
+    }
+
+    @Override
+    public <TP, TR> TR accept(Visitor<TP, TR> visitor, TP param) {
+        return visitor.visit(this, param);
     }
 }
