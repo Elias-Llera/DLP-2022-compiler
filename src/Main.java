@@ -1,4 +1,6 @@
 import ast.AstNode;
+import ast.Program;
+import ast.type.ErrorHandler;
 import introspector.model.IntrospectorModel;
 import introspector.view.IntrospectorTree;
 import org.antlr.v4.runtime.CharStream;
@@ -25,7 +27,11 @@ public class Main {
         AstNode ast = parser.program().ast;
 
         // * The AST is shown
-        IntrospectorModel model = new IntrospectorModel("Program", ast);
-        new IntrospectorTree("Introspector", model);
+        if(ErrorHandler.getInstance().anyError()){
+            IntrospectorModel model = new IntrospectorModel("Program", ast);
+            new IntrospectorTree("Introspector", model);
+        } else{
+            ErrorHandler.getInstance().showErrors(System.err);
+        }
     }
 }

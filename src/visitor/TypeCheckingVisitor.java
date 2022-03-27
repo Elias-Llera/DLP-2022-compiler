@@ -14,6 +14,8 @@ import ast.expression.value.CharLiteral;
 import ast.expression.value.DoubleLiteral;
 import ast.expression.value.IntLiteral;
 import ast.expression.value.Variable;
+import ast.statement.Assignment;
+import ast.type.ErrorType;
 
 public class TypeCheckingVisitor extends AbstractVisitor<Void, Void> {
 
@@ -108,6 +110,17 @@ public class TypeCheckingVisitor extends AbstractVisitor<Void, Void> {
         functionInvocation.getVariable().accept(this, param);
         for (AstNode astNode : functionInvocation.getParameters()){
             astNode.accept(this, param);
+        }
+        return null;
+    }
+
+    @Override
+    public Void visit(Assignment assignment, Void param) {
+        assignment.getLeftSideExpression().accept(this, param);
+        assignment.getLeftSideExpression().accept(this, param);
+        if(!assignment.getLeftSideExpression().getLvalue()){
+            new ErrorType("Not valid expression on the left side of the assignment.",
+                    assignment.getLine(), assignment.getColumn());
         }
         return null;
     }
