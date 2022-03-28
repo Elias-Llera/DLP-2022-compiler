@@ -1,6 +1,7 @@
 package ast.type;
 
-import visitor.Visitor;
+import errorhandler.ErrorHandler;
+import semantic.Visitor;
 
 public class ErrorType extends AbstractType{
 

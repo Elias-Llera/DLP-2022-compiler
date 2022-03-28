@@ -2,7 +2,7 @@ package ast.expression.unary;
 
 import ast.expression.Expression;
 import ast.type.Type;
-import visitor.Visitor;
+import semantic.Visitor;
 
 public class Cast extends UnaryOperation {
 

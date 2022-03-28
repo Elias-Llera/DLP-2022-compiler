@@ -1,8 +1,7 @@
 package ast.statement;
 
-import ast.expression.AbstractExpression;
 import ast.expression.Expression;
-import visitor.Visitor;
+import semantic.Visitor;
 
 import java.util.ArrayList;
 import java.util.List;

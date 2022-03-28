@@ -1,4 +1,4 @@
-// Generated from C:/Users/Elías/IdeaProjects/DLP compiler/src/parser\Pmm.g4 by ANTLR 4.9.2
+// Generated from C:/Users/Elï¿½as/IdeaProjects/DLP compiler/src/parser\Pmm.g4 by ANTLR 4.9.2
 package parser;
 
 import ast.*;
@@ -9,15 +9,13 @@ import ast.expression.unary.*;
 import ast.expression.value.*;
 import ast.statement.*;
 import ast.type.*;
-import parser.*;
+import errorhandler.ErrorHandler;
 
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.*;
-import org.antlr.v4.runtime.misc.*;
 import org.antlr.v4.runtime.tree.*;
 import java.util.List;
-import java.util.Iterator;
 import java.util.ArrayList;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
@@ -349,7 +347,7 @@ public class PmmParser extends Parser {
 	}
 
 	public static class Variable_definitionContext extends ParserRuleContext {
-		public List<VariableDefinition> ast = new ArrayList<>();
+		public List<VarDefinition> ast = new ArrayList<>();
 		public List<String> names = new ArrayList<>();
 		public Token id1;
 		public Token id2;
@@ -414,7 +412,7 @@ public class PmmParser extends Parser {
 			setState(78);
 			match(T__8);
 
-			        _localctx.names.forEach( name-> _localctx.ast.add(new VariableDefinition(name, ((Variable_definitionContext)_localctx).type.ast, ((Variable_definitionContext)_localctx).id1.getLine(), ((Variable_definitionContext)_localctx).id1.getCharPositionInLine()+1)));
+			        _localctx.names.forEach( name-> _localctx.ast.add(new VarDefinition(name, ((Variable_definitionContext)_localctx).type.ast, ((Variable_definitionContext)_localctx).id1.getLine(), ((Variable_definitionContext)_localctx).id1.getCharPositionInLine()+1)));
 			    
 			}
 		}
@@ -431,7 +429,7 @@ public class PmmParser extends Parser {
 
 	public static class Function_definitionContext extends ParserRuleContext {
 		public FunctionDefinition ast;
-		public List<VariableDefinition> paramDefinitions = new ArrayList<>();
+		public List<VarDefinition> paramDefinitions = new ArrayList<>();
 		public Type returnType = VoidType.getInstance();
 		public Token idFunction;
 		public Token id1;
@@ -502,7 +500,7 @@ public class PmmParser extends Parser {
 				match(T__4);
 				setState(86);
 				((Function_definitionContext)_localctx).t1 = built_in_type();
-				 _localctx.paramDefinitions.add(new VariableDefinition((((Function_definitionContext)_localctx).id1!=null?((Function_definitionContext)_localctx).id1.getText():null), ((Function_definitionContext)_localctx).t1.ast, ((Function_definitionContext)_localctx).id1.getLine(), ((Function_definitionContext)_localctx).id1.getCharPositionInLine()+1)); 
+				 _localctx.paramDefinitions.add(new VarDefinition((((Function_definitionContext)_localctx).id1!=null?((Function_definitionContext)_localctx).id1.getText():null), ((Function_definitionContext)_localctx).t1.ast, ((Function_definitionContext)_localctx).id1.getLine(), ((Function_definitionContext)_localctx).id1.getCharPositionInLine()+1));
 				setState(96);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
@@ -517,7 +515,7 @@ public class PmmParser extends Parser {
 					match(T__4);
 					setState(91);
 					((Function_definitionContext)_localctx).t2 = built_in_type();
-					 _localctx.paramDefinitions.add(new VariableDefinition((((Function_definitionContext)_localctx).id2!=null?((Function_definitionContext)_localctx).id2.getText():null), ((Function_definitionContext)_localctx).t2.ast, ((Function_definitionContext)_localctx).id2.getLine(), ((Function_definitionContext)_localctx).id2.getCharPositionInLine()+1)); 
+					 _localctx.paramDefinitions.add(new VarDefinition((((Function_definitionContext)_localctx).id2!=null?((Function_definitionContext)_localctx).id2.getText():null), ((Function_definitionContext)_localctx).t2.ast, ((Function_definitionContext)_localctx).id2.getLine(), ((Function_definitionContext)_localctx).id2.getCharPositionInLine()+1));
 					}
 					}
 					setState(98);

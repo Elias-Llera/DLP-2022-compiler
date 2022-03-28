@@ -1,7 +1,7 @@
 package ast.type;
 
 import ast.AbstractAstNode;
-import visitor.Visitor;
+import semantic.Visitor;
 
 public class RecordField extends AbstractAstNode {
 

@@ -1,8 +1,8 @@
-package visitor;
+package semantic;
 
 import ast.Program;
 import ast.definition.FunctionDefinition;
-import ast.definition.VariableDefinition;
+import ast.definition.VarDefinition;
 import ast.expression.ArrayAccess;
 import ast.expression.FieldAccess;
 import ast.expression.FunctionInvocation;
@@ -26,7 +26,7 @@ public interface Visitor<TP, TR> {
 
     // Definitions
     TR visit(FunctionDefinition functionDefinition, TP param);
-    TR visit(VariableDefinition variableDefinition, TP param);
+    TR visit(VarDefinition variableDefinition, TP param);
 
     // Statement
     TR visit(Print print, TP param);

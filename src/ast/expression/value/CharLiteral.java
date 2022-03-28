@@ -1,9 +1,7 @@
 package ast.expression.value;
 
 import ast.expression.AbstractExpression;
-import visitor.Visitor;
-
-import java.beans.Expression;
+import semantic.Visitor;
 
 public class CharLiteral extends AbstractExpression {
 

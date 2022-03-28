@@ -1,9 +1,9 @@
-package visitor;
+package semantic;
 
 import ast.AstNode;
 import ast.Program;
 import ast.definition.FunctionDefinition;
-import ast.definition.VariableDefinition;
+import ast.definition.VarDefinition;
 import ast.expression.ArrayAccess;
 import ast.expression.FieldAccess;
 import ast.expression.FunctionInvocation;
@@ -43,8 +43,8 @@ public abstract class AbstractVisitor<TP, TR> implements Visitor<TP, TR> {
     }
 
     @Override
-    public TR visit(VariableDefinition variableDefinition, TP param) {
-        variableDefinition.getType().accept(this, param);
+    public TR visit(VarDefinition varDefinition, TP param) {
+        varDefinition.getType().accept(this, param);
         return null;
     }
 

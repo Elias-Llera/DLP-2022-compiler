@@ -1,18 +1,17 @@
 package ast.type;
 
-import ast.definition.VariableDefinition;
-import visitor.Visitor;
+import ast.definition.VarDefinition;
+import semantic.Visitor;
 
-import java.lang.reflect.Parameter;
 import java.util.ArrayList;
 import java.util.List;
 
 public class FunctionType extends AbstractType {
 
-    private List<VariableDefinition> parameters;
+    private List<VarDefinition> parameters;
     private Type returnType;
 
-    public FunctionType(List<VariableDefinition> parameters, Type type, int line, int column) {
+    public FunctionType(List<VarDefinition> parameters, Type type, int line, int column) {
         super(line, column);
         this.parameters = parameters;
         this.returnType = type;
@@ -24,11 +23,11 @@ public class FunctionType extends AbstractType {
         this.returnType = type;
     }
 
-    public List<VariableDefinition> getParameters() {
+    public List<VarDefinition> getParameters() {
         return new ArrayList<>(parameters);
     }
 
-    public void addParameter(VariableDefinition parameter) {
+    public void addParameter(VarDefinition parameter) {
         this.parameters.add(parameter);
     }
 

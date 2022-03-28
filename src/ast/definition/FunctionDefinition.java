@@ -2,6 +2,7 @@ package ast.definition;
 
 import ast.statement.Statement;
 import ast.type.Type;
+import semantic.Visitor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,9 +10,9 @@ import java.util.List;
 public class FunctionDefinition extends AbstractDefinition {
 
     private List<Statement> functionStatements;
-    private List<VariableDefinition> variableDefinitions;
+    private List<VarDefinition> variableDefinitions;
 
-    public FunctionDefinition(String name, Type type, List<Statement> functionStatements, List<VariableDefinition> variableDefinitions, int line, int column) {
+    public FunctionDefinition(String name, Type type, List<Statement> functionStatements, List<VarDefinition> variableDefinitions, int line, int column) {
         super(name, type, line, column);
         this.functionStatements = functionStatements;
         this.variableDefinitions = variableDefinitions;
@@ -23,8 +24,8 @@ public class FunctionDefinition extends AbstractDefinition {
         this.variableDefinitions = new ArrayList<>();
     }
 
-    public List<VariableDefinition> getFunctionVariables() {
-        return new ArrayList<VariableDefinition>(variableDefinitions);
+    public List<VarDefinition> getFunctionVariables() {
+        return new ArrayList<VarDefinition>(variableDefinitions);
     }
 
     public List<Statement> getFunctionStatements() {
@@ -35,19 +36,24 @@ public class FunctionDefinition extends AbstractDefinition {
         this.functionStatements.addAll(statements);
     }
 
-    public void addVariableDefinitions(List<VariableDefinition> variableDefinitions) {
+    public void addVariableDefinitions(List<VarDefinition> variableDefinitions) {
         this.variableDefinitions.addAll(variableDefinitions);
     }
 
     @Override
     public String toString() {
         String str = getName() + ": " + getType().toString() + "\n";
-        for (VariableDefinition var : variableDefinitions) {
+        for (VarDefinition var : variableDefinitions) {
             str.concat(var.toString() + "\n");
         }
         for( Statement statement : functionStatements){
             str.concat(statement.toString() + "\n");
         }
         return str;
+    }
+
+    @Override
+    public <TP, TR> TR accept(Visitor<TP, TR> visitor, TP param) {
+        return visitor.visit(this, param);
     }
 }

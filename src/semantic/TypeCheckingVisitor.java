@@ -1,4 +1,4 @@
-package visitor;
+package semantic;
 
 import ast.AstNode;
 import ast.expression.ArrayAccess;

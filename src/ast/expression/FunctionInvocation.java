@@ -3,12 +3,12 @@ package ast.expression;
 import ast.AbstractAstNode;
 import ast.expression.value.Variable;
 import ast.statement.Statement;
-import visitor.Visitor;
+import semantic.Visitor;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class FunctionInvocation extends AbstractAstNode implements Expression, Statement {
+public class FunctionInvocation extends AbstractExpression implements Statement {
 
     private Variable variable;
     private List<Expression> parameters;

@@ -1,7 +1,5 @@
 package ast;
 
-import visitor.Visitor;
-
 public abstract class AbstractAstNode implements AstNode{
 
     private int line;

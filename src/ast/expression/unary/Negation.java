@@ -1,7 +1,7 @@
 package ast.expression.unary;
 
 import ast.expression.Expression;
-import visitor.Visitor;
+import semantic.Visitor;
 
 public class Negation extends UnaryOperation{
     public Negation(Expression expression, int line, int column) {

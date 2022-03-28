@@ -6,4 +6,6 @@ import ast.type.Type;
 public interface Definition extends AstNode {
     String getName();
     Type getType();
+    void setScope(int scope);
+    int getScope();
 }

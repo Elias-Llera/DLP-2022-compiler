@@ -1,6 +1,6 @@
 package ast.type;
 
-import visitor.Visitor;
+import semantic.Visitor;
 
 import java.util.ArrayList;
 import java.util.List;

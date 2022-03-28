@@ -1,7 +1,7 @@
 package ast.expression.binary;
 
 import ast.expression.Expression;
-import visitor.Visitor;
+import semantic.Visitor;
 
 public class Logical extends BinaryOperation{
 

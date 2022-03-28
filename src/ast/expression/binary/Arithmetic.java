@@ -1,8 +1,7 @@
 package ast.expression.binary;
 
-import ast.expression.AbstractExpression;
 import ast.expression.Expression;
-import visitor.Visitor;
+import semantic.Visitor;
 
 public class Arithmetic extends BinaryOperation {
 
