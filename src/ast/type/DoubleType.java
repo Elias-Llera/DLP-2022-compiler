@@ -1,5 +1,6 @@
 package ast.type;
 
+import ast.AstNode;
 import semantic.Visitor;
 
 public class DoubleType extends AbstractType {
@@ -16,6 +17,51 @@ public class DoubleType extends AbstractType {
         }
         return instance;
     }
+
+    @Override
+    public boolean isBuiltIn() {
+        return true;
+    }
+
+    @Override
+    public Type arithmetic(AstNode node) {
+        return this;
+    }
+
+    @Override
+    public Type arithmetic(Type otherType, AstNode node) {
+        if (otherType instanceof DoubleType || otherType instanceof ErrorType)
+            return otherType;
+        else
+            return super.arithmetic(otherType, node);
+    }
+
+    @Override
+    public Type promotesTo(Type otherType, AstNode node) {
+        if (otherType instanceof ErrorType || otherType instanceof DoubleType)
+            return otherType;
+        else
+            return super.promotesTo(otherType, node);
+    }
+
+    @Override
+    public Type canBeCast(Type otherType, AstNode node) {
+        if (otherType instanceof ErrorType || otherType instanceof CharType || otherType instanceof IntegerType || otherType instanceof DoubleType)
+            return otherType;
+        else
+            return super.canBeCast(otherType, node);
+    }
+
+    @Override
+    public Type comparison(Type otherType, AstNode node) {
+        if (otherType instanceof ErrorType)
+            return otherType;
+        else if (otherType instanceof CharType || otherType instanceof IntegerType || otherType instanceof DoubleType)
+            return IntegerType.getInstance();
+        else
+            return super.comparison(otherType, node);
+    }
+
 
     @Override
     public String toString(){

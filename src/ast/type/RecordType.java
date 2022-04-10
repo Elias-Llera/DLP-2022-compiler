@@ -1,5 +1,6 @@
 package ast.type;
 
+import ast.AstNode;
 import semantic.Visitor;
 
 import java.util.ArrayList;
@@ -25,6 +26,23 @@ public class RecordType extends AbstractType{
 
     public void addField(RecordField field){
         this.fields.add(field);
+    }
+
+    @Override
+    public Type dot(String fieldName, AstNode node) {
+        for (RecordField field : fields) {
+            if (field.equals(field.getName()))
+                return field.getType();
+        }
+        return new ErrorType("The field " + fieldName + " does not exist.", node.getLine(),node.getColumn());
+    }
+
+    @Override
+    public Type promotesTo(Type otherType, AstNode node) {
+        if (otherType instanceof ErrorType || otherType instanceof RecordType)
+            return otherType;
+        else
+            return super.promotesTo(otherType, node);
     }
 
     @Override

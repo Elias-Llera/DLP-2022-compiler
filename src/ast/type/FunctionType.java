@@ -1,5 +1,6 @@
 package ast.type;
 
+import ast.AstNode;
 import ast.definition.VarDefinition;
 import semantic.Visitor;
 
@@ -37,6 +38,18 @@ public class FunctionType extends AbstractType {
 
     public void setReturnType(Type returnType) {
         this.returnType = returnType;
+    }
+
+    @Override
+    public Type parenthesis(List<Type> paramsTypes, AstNode node) {
+        if (paramsTypes.size() != parameters.size())
+            return new ErrorType("The number of parameters is not correct.", node.getLine(),node.getColumn());
+
+        for (int i = 0; i < parameters.size(); i++) {
+            paramsTypes.get(i).promotesTo(parameters.get(i).getType(), paramsTypes.get(i));
+        }
+
+        return returnType;
     }
 
     @Override

@@ -1,5 +1,6 @@
 package ast.type;
 
+import ast.AstNode;
 import semantic.Visitor;
 
 public class ArrayType extends AbstractType {
@@ -11,6 +12,24 @@ public class ArrayType extends AbstractType {
         super(line, column);
         this.size = size;
         this.ofType = ofType;
+    }
+
+    @Override
+    public Type promotesTo(Type otherType, AstNode node) {
+        if (otherType instanceof ErrorType || otherType instanceof ArrayType)
+            return otherType;
+        else
+            return super.promotesTo(otherType, node);
+    }
+
+    @Override
+    public Type squareBrackets(Type otherType, AstNode node) {
+        if (otherType instanceof ErrorType)
+            return otherType;
+        if (!(otherType instanceof IntegerType))
+            return new ErrorType("The index for array access must an Integer", node.getLine(), node.getColumn());
+
+        return ofType;
     }
 
     public int getSize() {

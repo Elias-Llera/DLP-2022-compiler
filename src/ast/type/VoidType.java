@@ -18,6 +18,11 @@ public class VoidType extends AbstractType {
     }
 
     @Override
+    public boolean isBuiltIn() {
+        return true;
+    }
+
+    @Override
     public String toString(){
             return"Void";
     }
