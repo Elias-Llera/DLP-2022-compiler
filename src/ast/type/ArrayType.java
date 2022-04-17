@@ -26,7 +26,7 @@ public class ArrayType extends AbstractType {
     public Type squareBrackets(Type otherType, AstNode node) {
         if (otherType instanceof ErrorType)
             return otherType;
-        if (!(otherType instanceof IntegerType))
+        if (!otherType.equals(IntegerType.getInstance()))
             return new ErrorType("The index for array access must an Integer", node.getLine(), node.getColumn());
 
         return ofType;

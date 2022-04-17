@@ -32,7 +32,7 @@ public class CharType extends AbstractType{
     public Type arithmetic(Type otherType, AstNode node) {
         if (otherType instanceof ErrorType)
             return otherType;
-        else if (otherType instanceof CharType)
+        else if (otherType.equals(CharType.getInstance()))
             return IntegerType.getInstance();
         else
             return super.arithmetic(otherType, node);
@@ -40,14 +40,16 @@ public class CharType extends AbstractType{
 
     @Override
     public Type promotesTo(Type otherType, AstNode node) {
-        if (otherType instanceof ErrorType || otherType instanceof CharType || otherType instanceof IntegerType || otherType instanceof DoubleType)
+        if (otherType instanceof ErrorType || otherType.equals(CharType.getInstance())
+                || otherType.equals(IntegerType.getInstance()) || otherType.equals(DoubleType.getInstance()))
             return otherType;
         else
             return super.promotesTo(otherType, node);
     }
     @Override
     public Type canBeCast(Type otherType, AstNode node) {
-        if (otherType instanceof ErrorType || otherType instanceof CharType || otherType instanceof IntegerType || otherType instanceof DoubleType)
+        if (otherType instanceof ErrorType || otherType.equals(CharType.getInstance())
+                || otherType.equals(IntegerType.getInstance()) || otherType.equals(DoubleType.getInstance()))
             return otherType;
         else
             return super.canBeCast(otherType, node);
@@ -57,7 +59,8 @@ public class CharType extends AbstractType{
     public Type comparison(Type otherType, AstNode node) {
         if (otherType instanceof ErrorType)
             return otherType;
-        else if (otherType instanceof CharType || otherType instanceof IntegerType || otherType instanceof DoubleType)
+        else if (otherType.equals(CharType.getInstance()) || otherType.equals(IntegerType.getInstance())
+                || otherType.equals(DoubleType.getInstance()))
             return IntegerType.getInstance();
         else
             return super.comparison(otherType, node);

@@ -35,7 +35,7 @@ public class IntegerType extends AbstractType{
 
     @Override
     public Type arithmetic(Type otherType,AstNode node) {
-        if (otherType instanceof IntegerType || otherType instanceof ErrorType)
+        if (otherType instanceof ErrorType || otherType.equals(IntegerType.getInstance()))
             return otherType;
         else
             return super.arithmetic(otherType, node);
@@ -48,7 +48,7 @@ public class IntegerType extends AbstractType{
 
     @Override
     public Type logical(Type otherType, AstNode node) {
-        if (otherType instanceof IntegerType || otherType instanceof ErrorType)
+        if (otherType instanceof ErrorType || otherType.equals(IntegerType.getInstance()))
             return otherType;
         else
             return super.logical(otherType, node);
@@ -56,7 +56,8 @@ public class IntegerType extends AbstractType{
 
     @Override
     public Type promotesTo(Type otherType, AstNode node) {
-        if (otherType instanceof ErrorType || otherType instanceof IntegerType || otherType instanceof DoubleType)
+        if (otherType instanceof ErrorType || otherType.equals(IntegerType.getInstance())
+                || otherType.equals(DoubleType.getInstance()))
             return otherType;
         else
             return super.promotesTo(otherType, node);
@@ -64,7 +65,8 @@ public class IntegerType extends AbstractType{
 
     @Override
     public Type canBeCast(Type otherType, AstNode node) {
-        if (otherType instanceof ErrorType || otherType instanceof CharType || otherType instanceof IntegerType || otherType instanceof DoubleType)
+        if (otherType instanceof ErrorType || otherType.equals(IntegerType.getInstance())
+                || otherType.equals(CharType.getInstance()) || otherType.equals(DoubleType.getInstance()))
             return otherType;
         else
             return super.canBeCast(otherType, node);
@@ -74,7 +76,8 @@ public class IntegerType extends AbstractType{
     public Type comparison(Type otherType, AstNode node) {
         if (otherType instanceof ErrorType)
             return otherType;
-        else if (otherType instanceof CharType || otherType instanceof IntegerType || otherType instanceof DoubleType)
+        else if (otherType.equals(IntegerType.getInstance()) || otherType.equals(CharType.getInstance())
+                ||  otherType.equals(DoubleType.getInstance()))
             return this;
         else
             return super.comparison(otherType, node);
