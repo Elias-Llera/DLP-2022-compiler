@@ -8,6 +8,8 @@ public class RecordField extends AbstractAstNode {
     private Type type;
     private String name;
 
+    private int offset;
+
     public RecordField(Type type, String name, int line, int column) {
         super(line, column);
         this.type = type;
@@ -29,6 +31,10 @@ public class RecordField extends AbstractAstNode {
     public void setName(String name) {
         this.name = name;
     }
+
+    public int getOffset(){return offset;}
+
+    public void setOffset(int offset){this.offset = offset;}
 
     @Override
     public String toString(){

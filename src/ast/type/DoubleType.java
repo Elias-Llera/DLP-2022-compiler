@@ -64,6 +64,10 @@ public class DoubleType extends AbstractType {
             return super.comparison(otherType, node);
     }
 
+    @Override
+    public int numberOfBytes(){
+        return 4;
+    }
 
     @Override
     public String toString(){

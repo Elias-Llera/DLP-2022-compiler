@@ -72,4 +72,8 @@ public abstract class AbstractType extends AbstractAstNode implements Type {
                 + this.toString() + " to type " +  otherType.toString(),
                 node.getLine(),node.getColumn());
     }
+
+    public int numberOfBytes(){
+        return 0;
+    }
 }

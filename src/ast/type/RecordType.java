@@ -46,6 +46,15 @@ public class RecordType extends AbstractType{
     }
 
     @Override
+    public int numberOfBytes(){
+        int numberOfBytes = 0;
+        for(RecordField field : fields){
+            numberOfBytes += field.getType().numberOfBytes();
+        }
+        return numberOfBytes;
+    }
+
+    @Override
     public String toString(){
          return "struct";
     }

@@ -84,6 +84,11 @@ public class IntegerType extends AbstractType{
     }
 
     @Override
+    public int numberOfBytes(){
+        return 2;
+    }
+
+    @Override
     public String toString(){
         return "Integer";
     }

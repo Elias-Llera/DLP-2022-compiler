@@ -30,4 +30,6 @@ public interface Type extends AstNode {
 
     Type promotesTo(Type type, AstNode node);
 
+    int numberOfBytes();
+
 }

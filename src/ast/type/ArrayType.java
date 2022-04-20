@@ -49,6 +49,11 @@ public class ArrayType extends AbstractType {
     }
 
     @Override
+    public int numberOfBytes(){
+        return ofType.numberOfBytes() * size;
+    }
+
+    @Override
     public String toString(){
         return "[" + size + "]" + ofType.toString();
     }
