@@ -35,8 +35,8 @@ public class SymbolTable {
 
 	public Definition find(String id) {
 		for(int i = table.size()-1; i>=0; i--){
-			if(table.get(scope).containsKey(id)) {
-				return table.get(scope).get(id);
+			if(table.get(i).containsKey(id)) {
+				return table.get(i).get(id);
 			}
 		}
 		return null;

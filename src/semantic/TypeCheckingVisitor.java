@@ -38,7 +38,7 @@ public class TypeCheckingVisitor extends AbstractVisitor<Type, Void> {
         negation.setLvalue(false);
         negation.getExpression().accept(this, param);
 
-        negation.setType(negation.getExpression().getType().arithmetic(negation));
+        negation.setType(negation.getExpression().getType().logical(negation));
         return null;
     }
 

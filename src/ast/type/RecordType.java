@@ -47,11 +47,7 @@ public class RecordType extends AbstractType{
 
     @Override
     public String toString(){
-        String str = "struct: \n";
-        for (RecordField field: fields) {
-            str.concat(field.toString() + "\n");
-        }
-        return str;
+         return "struct";
     }
 
     @Override

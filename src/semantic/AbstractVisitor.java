@@ -169,7 +169,7 @@ public abstract class AbstractVisitor<TP, TR> implements Visitor<TP, TR> {
 
     @Override
     public TR visit(FunctionInvocation functionInvocation, TP param) {
-        functionInvocation.getVariable().accept(this, param);
+        //functionInvocation.getVariable().accept(this, param);
         for (AstNode astNode : functionInvocation.getParameters()){
             astNode.accept(this, param);
         }

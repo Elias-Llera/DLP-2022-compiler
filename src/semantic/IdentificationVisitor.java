@@ -16,7 +16,9 @@ public class IdentificationVisitor extends AbstractVisitor<Void, Void>{
     public Void visit(Variable variable, Void param) {
         Definition varDefinition = symbolTable.find(variable.getName());
         if(varDefinition == null){
-            new ErrorType("La variable no existe.", variable.getLine(), variable.getColumn());
+            variable.setDefinition(new VarDefinition("ERROR",
+                    new ErrorType("Variable does not exist.", variable.getLine(), variable.getColumn()),
+                    0, 0));
         } else {
             variable.setDefinition(varDefinition);
         }
@@ -27,7 +29,9 @@ public class IdentificationVisitor extends AbstractVisitor<Void, Void>{
     public Void visit(FunctionInvocation funcInvocation, Void param) {
         Definition functionDefinition = symbolTable.find(funcInvocation.getVariable().getName());
         if(functionDefinition == null){
-            new ErrorType("La funcion no existe.", funcInvocation.getLine(), funcInvocation.getColumn());
+            funcInvocation.getVariable().setDefinition(new VarDefinition("ERROR",
+                    new ErrorType("Function does not exist.", funcInvocation.getLine(), funcInvocation.getColumn()),
+                    0, 0));
         } else {
             funcInvocation.getVariable().setDefinition(functionDefinition);
         }
@@ -45,10 +49,10 @@ public class IdentificationVisitor extends AbstractVisitor<Void, Void>{
 
     @Override
     public Void visit(FunctionDefinition functionDefinition, Void param) {
-        symbolTable.set();
         if(!symbolTable.insert(functionDefinition)){
             new ErrorType("Duplicated definition name.", functionDefinition.getLine(), functionDefinition.getColumn());
         }
+        symbolTable.set();
         super.visit(functionDefinition, param);
         symbolTable.reset();
         return null;
