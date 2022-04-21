@@ -74,6 +74,6 @@ public abstract class AbstractType extends AbstractAstNode implements Type {
     }
 
     public int numberOfBytes(){
-        return 0;
+        throw new IllegalStateException("Cannot access number of bytes for type " + toString());
     }
 }

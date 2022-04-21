@@ -1,3 +1,6 @@
+import codegenerator.CodeGenerator;
+import codegenerator.ExecuteCGVisitor;
+import codegenerator.OffsetVisitor;
 import errorhandler.ErrorHandler;
 import parser.*;
 
@@ -36,8 +39,10 @@ public class Main {
 		}
 		else{
 			// * The AST is shown
-			IntrospectorModel model=new IntrospectorModel("Program", ast);
-			new IntrospectorTree("Introspector", model);
+			ast.accept(new OffsetVisitor(), null);
+			ast.accept(new ExecuteCGVisitor(new CodeGenerator(args[1], args[0]), null));
+			// IntrospectorModel model=new IntrospectorModel("Program", ast);
+			// new IntrospectorTree("Introspector", model);
 		}
 	}
 }
