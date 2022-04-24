@@ -1,6 +1,8 @@
 package ast.type;
 
 import ast.AstNode;
+import ast.expression.Expression;
+import codegenerator.CodeGenerator;
 import semantic.Visitor;
 
 public class CharType extends AbstractType{
@@ -79,6 +81,21 @@ public class CharType extends AbstractType{
     @Override
     public <TP, TR> TR accept(Visitor<TP, TR> visitor, TP param) {
         return visitor.visit(this, param);
+    }
+
+    public void promote(Expression expression, CodeGenerator codeGenerator){
+        if (expression.getType().equals(IntegerType.getInstance()))
+            codeGenerator.i2b();
+        else if (expression.getType().equals(DoubleType.getInstance())) {
+            codeGenerator.f2i();
+            codeGenerator.i2b();
+        } else if (!(expression.getType().equals(CharType.getInstance()))) {
+            super.promote(expression, codeGenerator);
+        }
+    }
+
+    public char suffix(){
+        return 'b';
     }
 
 }

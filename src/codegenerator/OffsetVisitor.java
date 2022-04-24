@@ -35,16 +35,20 @@ public class OffsetVisitor extends AbstractVisitor<Void, Void> {
 
         super.visit(functionDefinition, param);
 
+        functionDefinition.setBytesForLocals(localOffset);
+
         return null;
     }
 
     @Override
     public Void visit(FunctionType functionType, Void param){
         paramOffset = 0;
+        functionType.setBytesForParams(0);
 
         for(VarDefinition funcParam : functionType.getParameters()){
             funcParam.setOffset(4+paramOffset); // +4 por BP
             paramOffset += funcParam.getType().numberOfBytes();
+            functionType.setBytesForParams(functionType.getBytesForParams() + funcParam.getType().numberOfBytes());
         }
 
         return null;

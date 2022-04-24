@@ -1,6 +1,8 @@
 package ast.type;
 
 import ast.AstNode;
+import ast.expression.Expression;
+import codegenerator.CodeGenerator;
 
 import java.util.List;
 
@@ -31,5 +33,9 @@ public interface Type extends AstNode {
     Type promotesTo(Type type, AstNode node);
 
     int numberOfBytes();
+
+    void promote(Expression expression, CodeGenerator codeGenerator);
+
+    char suffix();
 
 }

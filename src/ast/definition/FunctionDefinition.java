@@ -11,6 +11,7 @@ public class FunctionDefinition extends AbstractDefinition {
 
     private List<Statement> functionStatements;
     private List<VarDefinition> variableDefinitions;
+    private int bytesForLocals;
 
     public FunctionDefinition(String name, Type type, List<Statement> functionStatements, List<VarDefinition> variableDefinitions, int line, int column) {
         super(name, type, line, column);
@@ -56,4 +57,13 @@ public class FunctionDefinition extends AbstractDefinition {
     public <TP, TR> TR accept(Visitor<TP, TR> visitor, TP param) {
         return visitor.visit(this, param);
     }
+
+    public int getBytesForLocals() {
+        return bytesForLocals;
+    }
+
+    public void setBytesForLocals(int bytesForLocals){
+        this.bytesForLocals = bytesForLocals;
+    }
+
 }

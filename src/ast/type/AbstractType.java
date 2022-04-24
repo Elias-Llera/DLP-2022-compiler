@@ -2,6 +2,9 @@ package ast.type;
 
 import ast.AbstractAstNode;
 import ast.AstNode;
+import ast.expression.Expression;
+import codegenerator.CodeGenerator;
+import codegenerator.ExecuteCGVisitor;
 
 import java.util.List;
 
@@ -75,5 +78,13 @@ public abstract class AbstractType extends AbstractAstNode implements Type {
 
     public int numberOfBytes(){
         throw new IllegalStateException("Cannot access number of bytes for type " + toString());
+    }
+
+    public void promote(Expression expression, CodeGenerator codeGenerator){
+        throw new IllegalStateException("Invalid promotion");
+    }
+
+    public char suffix(){
+        throw new IllegalStateException("Cannot get suffix for this type");
     }
 }

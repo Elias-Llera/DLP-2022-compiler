@@ -11,6 +11,7 @@ public class FunctionType extends AbstractType {
 
     private List<VarDefinition> parameters;
     private Type returnType;
+    private int bytesForParams;
 
     public FunctionType(List<VarDefinition> parameters, Type type, int line, int column) {
         super(line, column);
@@ -54,21 +55,19 @@ public class FunctionType extends AbstractType {
 
     @Override
     public String toString(){
-        String str = returnType.toString() + "(";
-        if(!parameters.isEmpty()){
-            str.concat(parameters.get(0).toString());
-            if(parameters.size()>1){
-                for (int i = 1; i<parameters.size(); i++){
-                    str.concat("," + parameters.get(i).toString());
-                }
-            }
-        }
-        str.concat(")");
-        return str;
+        return "FunctionType";
     }
 
     @Override
     public <TP, TR> TR accept(Visitor<TP, TR> visitor, TP param) {
         return visitor.visit(this, param);
+    }
+
+    public int getBytesForParams() {
+        return bytesForParams;
+    }
+
+    public void setBytesForParams(int bytesForParams){
+        this.bytesForParams = bytesForParams;
     }
 }

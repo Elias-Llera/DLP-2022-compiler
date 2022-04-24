@@ -21,6 +21,13 @@ import ast.type.*;
 import semantic.Visitor;
 
 public class AbstractCGVisitor implements Visitor<Void, Void> {
+
+    CodeGenerator codeGenerator;
+
+    public AbstractCGVisitor(CodeGenerator codeGenerator){
+        this.codeGenerator = codeGenerator;
+    }
+
     @Override
     public Void visit(Program program, Void param) {
         throw new IllegalStateException("Cannot call " + this.getClass().getName() + " for this class.");
@@ -83,96 +90,97 @@ public class AbstractCGVisitor implements Visitor<Void, Void> {
 
     @Override
     public Void visit(Arithmetic arithmetic, Void param) {
-        return null;
+        throw new IllegalStateException("Cannot call " + this.getClass().getName() + " for this class.");
     }
 
     @Override
     public Void visit(Logical logical, Void param) {
-        return null;
+        throw new IllegalStateException("Cannot call " + this.getClass().getName() + " for this class.");
     }
 
     @Override
     public Void visit(Comparison comparison, Void param) {
-        return null;
+        throw new IllegalStateException("Cannot call " + this.getClass().getName() + " for this class.");
     }
 
     @Override
     public Void visit(Variable variable, Void param) {
-        return null;
+        throw new IllegalStateException("Cannot call " + this.getClass().getName() + " for this class.");
     }
 
     @Override
     public Void visit(IntLiteral intLiteral, Void param) {
-        return null;
+        throw new IllegalStateException("Cannot call " + this.getClass().getName() + " for this class.");
     }
 
     @Override
     public Void visit(DoubleLiteral doubleLiteral, Void param) {
-        return null;
+        throw new IllegalStateException("Cannot call " + this.getClass().getName() + " for this class.");
     }
 
     @Override
     public Void visit(CharLiteral charLiteral, Void param) {
-        return null;
+        throw new IllegalStateException("Cannot call " + this.getClass().getName() + " for this class.");
     }
 
     @Override
     public Void visit(FieldAccess fieldAccess, Void param) {
-        return null;
+        throw new IllegalStateException("Cannot call " + this.getClass().getName() + " for this class.");
     }
 
     @Override
     public Void visit(ArrayAccess arrayAccess, Void param) {
-        return null;
+        throw new IllegalStateException("Cannot call " + this.getClass().getName() + " for this class.");
     }
 
     @Override
     public Void visit(FunctionInvocation functionInvocation, Void param) {
-        return null;
+        throw new IllegalStateException("Cannot call " + this.getClass().getName() + " for this class.");
     }
 
     @Override
     public Void visit(FunctionType functionType, Void param) {
-        return null;
+        throw new IllegalStateException("Cannot call " + this.getClass().getName() + " for this class.");
     }
 
     @Override
     public Void visit(CharType charType, Void param) {
-        return null;
+        throw new IllegalStateException("Cannot call " + this.getClass().getName() + " for this class.");
     }
 
     @Override
     public Void visit(DoubleType doubleType, Void param) {
-        return null;
+        throw new IllegalStateException("Cannot call " + this.getClass().getName() + " for this class.");
     }
 
     @Override
     public Void visit(IntegerType integerType, Void param) {
-        return null;
+        throw new IllegalStateException("Cannot call " + this.getClass().getName() + " for this class.");
     }
 
     @Override
     public Void visit(RecordType recordType, Void param) {
-        return null;
+        throw new IllegalStateException("Cannot call " + this.getClass().getName() + " for this class.");
     }
 
     @Override
     public Void visit(ArrayType arrayType, Void param) {
-        return null;
+        throw new IllegalStateException("Cannot call " + this.getClass().getName() + " for this class.");
     }
 
     @Override
     public Void visit(VoidType voidType, Void param) {
-        return null;
+        throw new IllegalStateException("Cannot call " + this.getClass().getName() + " for this class.");
     }
 
     @Override
     public Void visit(RecordField recordField, Void param) {
-        return null;
+        throw new IllegalStateException("Cannot call " + this.getClass().getName() + " for this class.");
     }
 
     @Override
     public Void visit(ErrorType errorType, Void param) {
-        return null;
+        throw new IllegalStateException("Cannot call " + this.getClass().getName() + " for this class.");
     }
+
 }
