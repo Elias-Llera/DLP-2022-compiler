@@ -205,8 +205,11 @@ public class ExecuteCGVisitor extends AbstractCGVisitor {
      */
 
     /**
-     * execute[[Return : statement -> expression]](FunctionDefinition) =
+     * execute[[Return : statement -> expression]](functionDefinition) =
      *          value[[expression]]()
+     *          <ret > functionDefinition.type.numberOfBytes
+     *              <, > functionDefinition.bytesForLocals
+     *              <,> functionDefinition.type.bytesForParams
      */
 
 }
