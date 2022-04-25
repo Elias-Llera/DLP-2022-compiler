@@ -280,4 +280,11 @@ public class ValueCGVisitor extends AbstractCGVisitor{
         return null;
     }
 
+    /**
+     * value[[FunctionInvocation : expression1 -> expression2 expression3*]]() =
+     *          for(Expression expression : expression3*)
+     *              value[[expression]]()
+     *          <call > expression1.name
+     */
+
 }

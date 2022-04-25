@@ -80,11 +80,13 @@ public class ExecuteCGVisitor extends AbstractCGVisitor {
      */
     @Override
     public Void visit (FunctionDefinition functionDefinition, Void param){
-
         codeGenerator.writeLine(functionDefinition);
         codeGenerator.generateLabel(functionDefinition.getName());
 
-        functionDefinition.getType().accept(this,null);
+        codeGenerator.writeComment("Parameters");
+        for (VarDefinition parameter : ((FunctionType)functionDefinition.getType()).getParameters()){
+            parameter.accept(this,null);
+        }
 
         codeGenerator.writeComment("Local variables");
         for (VarDefinition varDefinition : functionDefinition.getFunctionVariables()){
@@ -100,23 +102,6 @@ public class ExecuteCGVisitor extends AbstractCGVisitor {
         FunctionType functionType = (FunctionType)functionDefinition.getType();
         if (functionType.getReturnType().equals(VoidType.getInstance()))
             codeGenerator.ret(0,functionDefinition.getBytesForLocals(),functionType.getBytesForParams());
-
-        return null;
-    }
-
-    /**
-     * execute [[FunctionType : functionType -> type VarDefinition*]]() =
-     *      < ' * Parameters>
-     *      for (VarDefinition varDefinition : VarDefinition*)
-     *          execute[[varDefinition]]()
-     */
-    @Override
-    public Void visit (FunctionType functionType, Void param){
-        codeGenerator.writeComment("Parameters");
-
-        for (VarDefinition parameter : functionType.getParameters()){
-            functionType.accept(this,null);
-        }
 
         return null;
     }
@@ -183,6 +168,45 @@ public class ExecuteCGVisitor extends AbstractCGVisitor {
         return null;
     }
 
+    /**
+     * execute[[WhileStatement : statement1 -> expression statement2*]]() =
+     *          int end = codeGenerator.getLabel()
+     *          int condition = codeGenerator.getLabel()
+     *          <LABEL_> condition <:>
+     *          value[[expression]]()
+     *          <jz LABEL_> end
+     *          for(Statement statement : statement2*)
+     *              execute[[statement]]()
+     *          <jmp LABEL_> condition
+     *          <LABEL_> end <:>
+     */
 
+
+    /**
+     * execute[[IfElseStatement : statement1 -> expression statement2* statement3*]]() =
+     *          int else = codeGenerator.getLabel()
+     *          int end = codeGenerator.getLabel()
+     *          value[[expression]]()
+     *          <jz LABEL_> else
+     *          for(Statement statement : statement2*)
+     *              execute[[statement]]()
+     *          <jmp LABEL_> end
+     *          <LABEL_> else <:>
+     *          for(Statement statement : statement3*)
+     *              execute[[statement]]()
+     *          <LABEL_> end <:>
+     */
+
+    /**
+     * execute[[FunctionInvocation : statement -> expression1 expression2*]]() =
+     *          value[[(Expression)statement]]()
+     *          if(((Expression)statement).type.equals(VoidType.getInstance()))
+     *              <pop> ((Expression)statement).type.suffix()
+     */
+
+    /**
+     * execute[[Return : statement -> expression]](FunctionDefinition) =
+     *          value[[expression]]()
+     */
 
 }
