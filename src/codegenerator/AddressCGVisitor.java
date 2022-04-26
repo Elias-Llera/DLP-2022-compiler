@@ -9,7 +9,7 @@ import ast.type.RecordField;
 import ast.type.RecordType;
 
 
-public class AddressCGVisitor extends AbstractCGVisitor{
+public class AddressCGVisitor extends AbstractCGVisitor<Void>{
 
     public ValueCGVisitor valueCGVisitor;
 

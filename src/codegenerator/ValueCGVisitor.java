@@ -1,8 +1,11 @@
 package codegenerator;
 
 
+import ast.definition.VarDefinition;
 import ast.expression.ArrayAccess;
+import ast.expression.Expression;
 import ast.expression.FieldAccess;
+import ast.expression.FunctionInvocation;
 import ast.expression.binary.Arithmetic;
 import ast.expression.binary.Comparison;
 import ast.expression.binary.Logical;
@@ -15,7 +18,11 @@ import ast.expression.value.IntLiteral;
 import ast.expression.value.Variable;
 import ast.type.*;
 
-public class ValueCGVisitor extends AbstractCGVisitor{
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+public class ValueCGVisitor extends AbstractCGVisitor<Void>{
 
     private AddressCGVisitor addressCGVisitor;
 
@@ -44,7 +51,7 @@ public class ValueCGVisitor extends AbstractCGVisitor{
      *              <mod>expression1.type.suffix()
      */
     @Override
-    public Void visit (Arithmetic arithmetic, Void param){
+    public Void visit(Arithmetic arithmetic, Void param){
         arithmetic.getLeftExpression().accept(this, null);
         arithmetic.getType().promote(arithmetic.getLeftExpression(), codeGenerator);
         arithmetic.getRightExpression().accept(this, null);
@@ -83,7 +90,7 @@ public class ValueCGVisitor extends AbstractCGVisitor{
      *              <or>
      */
     @Override
-    public Void visit (Logical logical, Void param){
+    public Void visit(Logical logical, Void param){
         logical.getLeftExpression().accept(this,null);
         logical.getLeftExpression().accept(this,null);
 
@@ -127,7 +134,7 @@ public class ValueCGVisitor extends AbstractCGVisitor{
      *              <ne>comparisonType.suffix()
      */
     @Override
-    public Void visit (Comparison comparison, Void param){
+    public Void visit(Comparison comparison, Void param){
         Type comparisonType = comparison.getRightExpression().getType();
 
         // Left operand type has preference
@@ -172,7 +179,7 @@ public class ValueCGVisitor extends AbstractCGVisitor{
      *       type.promote(expression2, codeGenerator)
      */
     @Override
-    public Void visit (Cast cast, Void param){
+    public Void visit(Cast cast, Void param){
         cast.getExpression().accept(this,null);
         cast.getCastType().promote(cast.getExpression(), codeGenerator);
         return null;
@@ -184,7 +191,7 @@ public class ValueCGVisitor extends AbstractCGVisitor{
      *      <not>
      */
     @Override
-    public Void visit (Negation negation, Void param){
+    public Void visit(Negation negation, Void param){
         negation.getExpression().accept(this, null);
         codeGenerator.not();
         return null;
@@ -197,7 +204,7 @@ public class ValueCGVisitor extends AbstractCGVisitor{
      *      <sub> expression1.type.suffix()
      */
     @Override
-    public Void visit (UnaryMinus unaryMinus, Void param){
+    public Void visit(UnaryMinus unaryMinus, Void param){
         codeGenerator.push(0);
         unaryMinus.getExpression().accept(this, null);
         codeGenerator.sub(unaryMinus.getType());
@@ -211,7 +218,7 @@ public class ValueCGVisitor extends AbstractCGVisitor{
      *      <load>expression1.definition.type.suffix()
      */
     @Override
-    public Void visit (Variable variable, Void param){
+    public Void visit(Variable variable, Void param){
         variable.accept(this.addressCGVisitor, null);
         codeGenerator.load(variable.getDefinition().getType());
         return null;
@@ -222,7 +229,7 @@ public class ValueCGVisitor extends AbstractCGVisitor{
      *      <pushi> INT_CONSTANT
      */
     @Override
-    public Void visit (IntLiteral intLiteral, Void param){
+    public Void visit(IntLiteral intLiteral, Void param){
         codeGenerator.push(intLiteral.getValue());
         return null;
     }
@@ -232,7 +239,7 @@ public class ValueCGVisitor extends AbstractCGVisitor{
      *      <pushf> DOUBLE_CONSTANT
      */
     @Override
-    public Void visit (DoubleLiteral doubleLiteral, Void param){
+    public Void visit(DoubleLiteral doubleLiteral, Void param){
         codeGenerator.push(doubleLiteral.getValue());
         return null;
     }
@@ -242,7 +249,7 @@ public class ValueCGVisitor extends AbstractCGVisitor{
      *      <pushb> CHAR_CONSTANT
      */
     @Override
-    public Void visit (CharLiteral charLiteral, Void param){
+    public Void visit(CharLiteral charLiteral, Void param){
         codeGenerator.push(charLiteral.getValue());
         return null;
     }
@@ -253,7 +260,7 @@ public class ValueCGVisitor extends AbstractCGVisitor{
      *      <load>expression2.type.suffix()
      */
     @Override
-    public Void visit (ArrayAccess arrayAccess, Void param){
+    public Void visit(ArrayAccess arrayAccess, Void param){
         arrayAccess.accept(this.addressCGVisitor, null);
 
         codeGenerator.load(((ArrayType)arrayAccess.getLeftExpression().getType()).getOfType());
@@ -270,7 +277,7 @@ public class ValueCGVisitor extends AbstractCGVisitor{
      *              <load>field.type.suffix()
      */
     @Override
-    public Void visit (FieldAccess fieldAccess, Void param){
+    public Void visit(FieldAccess fieldAccess, Void param){
         fieldAccess.accept(this.addressCGVisitor, null);
 
         for (RecordField recordField : ((RecordType)fieldAccess.getExpression().getType()).getFields())
@@ -286,5 +293,17 @@ public class ValueCGVisitor extends AbstractCGVisitor{
      *              value[[expression]]()
      *          <call > expression1.name
      */
+    @Override
+    public Void visit(FunctionInvocation functionInvocation, Void param){
+
+        List<Expression> params = new ArrayList<>(functionInvocation.getParameters());
+        Collections.reverse(params);
+
+        for (Expression expression : params){
+            expression.accept(this, null);
+        }
+        codeGenerator.callFunction(functionInvocation.getVariable().getName());
+        return null;
+    }
 
 }

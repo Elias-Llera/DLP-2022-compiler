@@ -7,6 +7,10 @@ import ast.type.RecordField;
 import ast.type.RecordType;
 import semantic.AbstractVisitor;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 public class OffsetVisitor extends AbstractVisitor<Void, Void> {
 
     private int globalOffset = 0;
@@ -46,7 +50,7 @@ public class OffsetVisitor extends AbstractVisitor<Void, Void> {
         functionType.setBytesForParams(0);
 
         for(VarDefinition funcParam : functionType.getParameters()){
-            funcParam.setOffset(4+paramOffset); // +4 por BP
+            funcParam.setOffset(-4-paramOffset); // -4 por BP
             paramOffset += funcParam.getType().numberOfBytes();
             functionType.setBytesForParams(functionType.getBytesForParams() + funcParam.getType().numberOfBytes());
         }

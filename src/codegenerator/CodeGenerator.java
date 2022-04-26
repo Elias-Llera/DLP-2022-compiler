@@ -14,6 +14,7 @@ import java.io.PrintWriter;
 public class CodeGenerator {
 
     private PrintWriter out;
+    private int label;
 
     public CodeGenerator(String outputFileName, String inputFileName) {
         try {
@@ -23,6 +24,15 @@ public class CodeGenerator {
             System.exit(-1);
         }
         this.writeSource(inputFileName);
+    }
+
+    public int generateLabel(){
+        return label++;
+    }
+
+    public void writeLabel(int labelNumber){
+        out.println("LABEL_" + labelNumber + ":");
+        out.flush();
     }
 
     public void writeSource(String inputFileName){
@@ -190,5 +200,24 @@ public class CodeGenerator {
     public void i2b() {
         out.println("\ti2b");
         out.flush();
+    }
+
+    public void callFunction(String name) {
+        out.println("call " + name);
+        out.flush();
+    }
+
+    public void jz(int labelNumber) {
+        out.println("jz LABEL_" + labelNumber);
+        out.flush();
+    }
+
+    public void jmp(int labelNumber) {
+        out.println("jmp LABEL_" + labelNumber);
+        out.flush();
+    }
+
+    public void pop(Type type) {
+        out.println("pop" + type.suffix());
     }
 }
