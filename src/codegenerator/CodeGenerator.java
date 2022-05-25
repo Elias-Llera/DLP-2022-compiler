@@ -110,7 +110,7 @@ public class CodeGenerator {
     }
 
     public void push(char value) {
-        out.println("\tpushb\t" + value);
+        out.println("\tpushb\t" + (int)value);
         out.flush();
     }
 
@@ -150,7 +150,7 @@ public class CodeGenerator {
     }
 
     public void or() {
-        out.println("\tand");
+        out.println("\tor");
         out.flush();
     }
 
@@ -165,21 +165,33 @@ public class CodeGenerator {
     }
 
     public void gt(Type type) {
+        out.println("\tgt" + type.suffix());
+        out.flush();
     }
 
     public void lt(Type type) {
+        out.println("\tlt" + type.suffix());
+        out.flush();
     }
 
     public void ge(Type type) {
+        out.println("\tge" + type.suffix());
+        out.flush();
     }
 
     public void le(Type type) {
+        out.println("\tle" + type.suffix());
+        out.flush();
     }
 
     public void eq(Type type) {
+        out.println("\teq" + type.suffix());
+        out.flush();
     }
 
     public void ne(Type type) {
+        out.println("\tne" + type.suffix());
+        out.flush();
     }
 
     public void i2f() {
@@ -203,21 +215,21 @@ public class CodeGenerator {
     }
 
     public void callFunction(String name) {
-        out.println("call " + name);
+        out.println("\tcall " + name);
         out.flush();
     }
 
     public void jz(int labelNumber) {
-        out.println("jz LABEL_" + labelNumber);
+        out.println("\tjz LABEL_" + labelNumber);
         out.flush();
     }
 
     public void jmp(int labelNumber) {
-        out.println("jmp LABEL_" + labelNumber);
+        out.println("\tjmp LABEL_" + labelNumber);
         out.flush();
     }
 
     public void pop(Type type) {
-        out.println("pop" + type.suffix());
+        out.println("\tpop" + type.suffix());
     }
 }

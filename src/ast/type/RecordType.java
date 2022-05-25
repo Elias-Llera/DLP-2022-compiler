@@ -31,7 +31,7 @@ public class RecordType extends AbstractType{
     @Override
     public Type dot(String fieldName, AstNode node) {
         for (RecordField field : fields) {
-            if (field.equals(field.getName()))
+            if (field.getName().equals(fieldName))
                 return field.getType();
         }
         return new ErrorType("The field " + fieldName + " does not exist.", node.getLine(),node.getColumn());

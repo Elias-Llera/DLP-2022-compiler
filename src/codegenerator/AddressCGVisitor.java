@@ -4,6 +4,7 @@ import ast.definition.VarDefinition;
 import ast.expression.ArrayAccess;
 import ast.expression.FieldAccess;
 import ast.expression.value.Variable;
+import ast.type.ArrayType;
 import ast.type.IntegerType;
 import ast.type.RecordField;
 import ast.type.RecordType;
@@ -54,7 +55,7 @@ public class AddressCGVisitor extends AbstractCGVisitor<Void>{
         arrayAccess.getLeftExpression().accept(this,null);
         arrayAccess.getRightExpression().accept(this.valueCGVisitor, null);
 
-        codeGenerator.push(arrayAccess.getLeftExpression().getType().numberOfBytes());
+        codeGenerator.push(((ArrayType)arrayAccess.getLeftExpression().getType()).getOfType().numberOfBytes());
         codeGenerator.mul(IntegerType.getInstance());
         codeGenerator.add(IntegerType.getInstance());
 

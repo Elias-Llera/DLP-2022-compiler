@@ -1,5 +1,6 @@
 package codegenerator;
 
+import ast.AstNode;
 import ast.definition.FunctionDefinition;
 import ast.definition.VarDefinition;
 import ast.type.FunctionType;
@@ -39,6 +40,11 @@ public class OffsetVisitor extends AbstractVisitor<Void, Void> {
 
         super.visit(functionDefinition, param);
 
+        for (VarDefinition localVariable : functionDefinition.getFunctionVariables()) {
+            localOffset += localVariable.getType().numberOfBytes();
+            localVariable.setOffset(- localOffset);
+        }
+
         functionDefinition.setBytesForLocals(localOffset);
 
         return null;
@@ -49,8 +55,11 @@ public class OffsetVisitor extends AbstractVisitor<Void, Void> {
         paramOffset = 0;
         functionType.setBytesForParams(0);
 
-        for(VarDefinition funcParam : functionType.getParameters()){
-            funcParam.setOffset(-4-paramOffset); // -4 por BP
+        List<VarDefinition> inverseParams = new ArrayList(functionType.getParameters());
+        Collections.reverse(inverseParams);
+
+        for(VarDefinition funcParam : inverseParams){
+            funcParam.setOffset(4+paramOffset); // -4 por BP
             paramOffset += funcParam.getType().numberOfBytes();
             functionType.setBytesForParams(functionType.getBytesForParams() + funcParam.getType().numberOfBytes());
         }
@@ -71,7 +80,6 @@ public class OffsetVisitor extends AbstractVisitor<Void, Void> {
 
     @Override
     public Void visit(RecordField recordField, Void param){
-        recordField.accept(this, param);
 
         recordField.setOffset(recordFieldOffset);
         recordFieldOffset += recordField.getType().numberOfBytes();

@@ -92,7 +92,7 @@ public class ValueCGVisitor extends AbstractCGVisitor<Void>{
     @Override
     public Void visit(Logical logical, Void param){
         logical.getLeftExpression().accept(this,null);
-        logical.getLeftExpression().accept(this,null);
+        logical.getRightExpression().accept(this,null);
 
         switch (logical.getOperator()){
             case "&&":
@@ -297,7 +297,6 @@ public class ValueCGVisitor extends AbstractCGVisitor<Void>{
     public Void visit(FunctionInvocation functionInvocation, Void param){
 
         List<Expression> params = new ArrayList<>(functionInvocation.getParameters());
-        Collections.reverse(params);
 
         for (Expression expression : params){
             expression.accept(this, null);

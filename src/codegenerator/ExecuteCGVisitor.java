@@ -95,7 +95,7 @@ public class ExecuteCGVisitor extends AbstractCGVisitor<FunctionDefinition> {
         codeGenerator.enter(functionDefinition.getBytesForLocals());
 
         for (Statement statement : functionDefinition.getFunctionStatements()){
-            statement.accept(this, param);
+            statement.accept(this, functionDefinition);
         }
 
         FunctionType functionType = (FunctionType)functionDefinition.getType();
@@ -160,7 +160,7 @@ public class ExecuteCGVisitor extends AbstractCGVisitor<FunctionDefinition> {
         codeGenerator.writeLine(print);
         codeGenerator.writeComment("Write");
 
-        print.accept(this.valueCGVisitor, null);
+        print.getExpression().accept(this.valueCGVisitor, null);
 
         codeGenerator.out(print.getExpression().getType());
 
@@ -181,6 +181,8 @@ public class ExecuteCGVisitor extends AbstractCGVisitor<FunctionDefinition> {
      */
     @Override
     public Void visit (While whileStatement, FunctionDefinition param){
+        codeGenerator.writeComment("While");
+
         int endLabel, conditionLabel;
         endLabel = codeGenerator.generateLabel();
         conditionLabel = codeGenerator.generateLabel();
@@ -216,6 +218,9 @@ public class ExecuteCGVisitor extends AbstractCGVisitor<FunctionDefinition> {
      */
     @Override
     public Void visit (IfElse ifElse, FunctionDefinition param){
+
+        codeGenerator.writeComment("If-Else");
+
         int endLabel = codeGenerator.generateLabel();
         int elseLabel = codeGenerator.generateLabel();
 
@@ -247,8 +252,8 @@ public class ExecuteCGVisitor extends AbstractCGVisitor<FunctionDefinition> {
 
         functionInvocation.accept(this.valueCGVisitor, null);
 
-        Type functionReturnType = ((FunctionType)functionInvocation.getType()).getReturnType();
-        if(functionReturnType.equals(VoidType.getInstance())){
+        Type functionReturnType = ((FunctionType)functionInvocation.getVariable().getDefinition().getType()).getReturnType();
+        if(!functionReturnType.equals(VoidType.getInstance())){
             codeGenerator.pop(functionReturnType);
         }
 
@@ -260,10 +265,13 @@ public class ExecuteCGVisitor extends AbstractCGVisitor<FunctionDefinition> {
      *          value[[expression]]()
      *          <ret > functionDefinition.type.numberOfBytes
      *              <, > functionDefinition.bytesForLocals
-     *              <,> functionDefinition.type.bytesForParams
+     *              <, > functionDefinition.type.bytesForParams
      */
     @Override
     public Void visit (Return returnStatement, FunctionDefinition param){
+
+        codeGenerator.writeLine(returnStatement);
+        codeGenerator.writeComment("Return");
 
         returnStatement.getExpression().accept(this.valueCGVisitor, null);
 
