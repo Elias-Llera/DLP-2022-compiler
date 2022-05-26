@@ -36,7 +36,7 @@ public class CodeGenerator {
     }
 
     public void writeSource(String inputFileName){
-        out.println("#source: \"" + inputFileName + "\"\n");
+        out.println("#source \"" + inputFileName + "\"\n");
         out.flush();
     }
 
@@ -185,7 +185,11 @@ public class CodeGenerator {
     }
 
     public void eq(Type type) {
-        out.println("\teq" + type.suffix());
+        if(type.equals(CharType.getInstance())){
+            out.println("\teqi");
+        }else{
+            out.println("\teq" + type.suffix());
+        }
         out.flush();
     }
 

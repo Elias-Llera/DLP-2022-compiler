@@ -1,0 +1,287 @@
+#source "input.txt"
+	call main
+	halt
+
+#line 6
+' * Function
+abs:
+' * ast.definition.FunctionDefinition@1b40d5f0
+	enter 0
+' * Function body
+
+#line 7
+' * If
+	push bp
+	pushi 4
+	addi
+	loadf
+	pushf 0.0
+	gtf
+	jz label_1
+
+#line 7
+' * Return
+	push bp
+	pushi 4
+	addi
+	loadf
+	ret 4,0,4
+	jmp label_1
+label_1:
+
+#line 8
+' * Return
+	pushf 0
+	push bp
+	pushi 4
+	addi
+	loadf
+	subf
+	ret 4,0,4
+' * Function abs end
+
+#line 11
+' * Function
+sqrt:
+' * ast.definition.FunctionDefinition@3cb5cdba
+	enter 20
+' * real x(offset -4)
+' * real min(offset -8)
+' * real max(offset -12)
+' * real e(offset -16)
+' * int max_iters(offset -18)
+' * int iters(offset -20)
+' * Function body
+
+#line 15
+' * Assignment
+	push bp
+	pushi -8
+	addi
+	pushf 0.0
+	storef
+
+#line 16
+' * Assignment
+	push bp
+	pushi -12
+	addi
+	push bp
+	pushi 4
+	addi
+	loadf
+	storef
+
+#line 18
+' * Assignment
+	push bp
+	pushi -16
+	addi
+	pushf 0.001
+	storef
+
+#line 19
+' * Assignment
+	push bp
+	pushi -18
+	addi
+	pushi 10
+	storei
+
+#line 21
+' * Assignment
+	push bp
+	pushi -4
+	addi
+	push bp
+	pushi 4
+	addi
+	loadf
+	pushf 2.0
+	divf
+	storef
+
+#line 22
+' * Assignment
+	push bp
+	pushi -20
+	addi
+	pushi 0
+	storei
+
+#line 23
+' * While
+label_2:
+	push bp
+	pushi -4
+	addi
+	loadf
+	push bp
+	pushi -4
+	addi
+	loadf
+	mulf
+	push bp
+	pushi 4
+	addi
+	loadf
+	subf
+	call abs
+	push bp
+	pushi -16
+	addi
+	loadf
+	gtf
+	push bp
+	pushi -20
+	addi
+	loadi
+	push bp
+	pushi -18
+	addi
+	loadi
+	lti
+	and
+	jz label_3
+
+#line 24
+' * If
+	push bp
+	pushi -4
+	addi
+	loadf
+	push bp
+	pushi -4
+	addi
+	loadf
+	mulf
+	push bp
+	pushi 4
+	addi
+	loadf
+	gtf
+	jz label_5
+
+#line 24
+' * Assignment
+	push bp
+	pushi -12
+	addi
+	push bp
+	pushi -4
+	addi
+	loadf
+	storef
+	jmp label_5
+label_5:
+
+#line 25
+' * If
+	push bp
+	pushi -4
+	addi
+	loadf
+	push bp
+	pushi -4
+	addi
+	loadf
+	mulf
+	push bp
+	pushi 4
+	addi
+	loadf
+	ltf
+	jz label_7
+
+#line 25
+' * Assignment
+	push bp
+	pushi -8
+	addi
+	push bp
+	pushi -4
+	addi
+	loadf
+	storef
+	jmp label_7
+label_7:
+
+#line 27
+' * Assignment
+	push bp
+	pushi -4
+	addi
+	push bp
+	pushi -12
+	addi
+	loadf
+	push bp
+	pushi -8
+	addi
+	loadf
+	addf
+	pushf 2.0
+	divf
+	storef
+
+#line 29
+' * Assignment
+	push bp
+	pushi -20
+	addi
+	push bp
+	pushi -20
+	addi
+	loadi
+	pushi 1
+	addi
+	storei
+	jmp label_2
+label_3:
+
+#line 32
+' * Return
+	push bp
+	pushi -4
+	addi
+	loadf
+	ret 4,20,4
+' * Function sqrt end
+
+#line 35
+' * Function
+main:
+' * ast.definition.FunctionDefinition@4c203ea1
+	enter 4
+' * real n(offset -4)
+' * Function body
+
+#line 38
+' * Print
+	pushb 110
+	outb
+	pushb 32
+	outb
+	pushb 61
+	outb
+	pushb 32
+	outb
+
+#line 39
+' * Input
+	push bp
+	pushi -4
+	addi
+	inf
+	storef
+
+#line 40
+' * Print
+	push bp
+	pushi -4
+	addi
+	loadf
+	call sqrt
+	outf
+	ret 0,4,0
+' * Function main end

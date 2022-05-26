@@ -1,0 +1,1001 @@
+#source "input.txt"
+	call main
+	halt
+' * int[20][20] matrix(offset 0)
+
+#line 18
+' * Function
+numToChar:
+' * ast.definition.FunctionDefinition@58ceff1
+	enter 0
+' * Function body
+
+#line 19
+' * If
+	push bp
+	pushi 4
+	addi
+	loadf
+	pushf 0.1
+	ltf
+	jz label_1
+
+#line 19
+' * Return
+	pushb 32
+	ret 1,0,4
+	jmp label_1
+label_1:
+
+#line 20
+' * If
+	push bp
+	pushi 4
+	addi
+	loadf
+	pushf 0.2
+	ltf
+	jz label_3
+
+#line 20
+' * Return
+	pushb 183
+	ret 1,0,4
+	jmp label_3
+label_3:
+
+#line 21
+' * If
+	push bp
+	pushi 4
+	addi
+	loadf
+	pushf 0.3
+	ltf
+	jz label_5
+
+#line 21
+' * Return
+	pushb 42
+	ret 1,0,4
+	jmp label_5
+label_5:
+
+#line 22
+' * If
+	push bp
+	pushi 4
+	addi
+	loadf
+	pushf 0.4
+	ltf
+	jz label_7
+
+#line 22
+' * Return
+	pushb 126
+	ret 1,0,4
+	jmp label_7
+label_7:
+
+#line 23
+' * If
+	push bp
+	pushi 4
+	addi
+	loadf
+	pushf 0.5
+	ltf
+	jz label_9
+
+#line 23
+' * Return
+	pushb 58
+	ret 1,0,4
+	jmp label_9
+label_9:
+
+#line 24
+' * If
+	push bp
+	pushi 4
+	addi
+	loadf
+	pushf 0.6
+	ltf
+	jz label_11
+
+#line 24
+' * Return
+	pushb 111
+	ret 1,0,4
+	jmp label_11
+label_11:
+
+#line 25
+' * If
+	push bp
+	pushi 4
+	addi
+	loadf
+	pushf 0.7
+	ltf
+	jz label_13
+
+#line 25
+' * Return
+	pushb 48
+	ret 1,0,4
+	jmp label_13
+label_13:
+
+#line 26
+' * If
+	push bp
+	pushi 4
+	addi
+	loadf
+	pushf 0.8
+	ltf
+	jz label_15
+
+#line 26
+' * Return
+	pushb 68
+	ret 1,0,4
+	jmp label_15
+label_15:
+
+#line 27
+' * If
+	push bp
+	pushi 4
+	addi
+	loadf
+	pushf 0.9
+	ltf
+	jz label_17
+
+#line 27
+' * Return
+	pushb 37
+	ret 1,0,4
+	jmp label_17
+label_17:
+
+#line 28
+' * Return
+	pushb 35
+	ret 1,0,4
+' * Function numToChar end
+
+#line 31
+' * Function
+show:
+' * ast.definition.FunctionDefinition@511baa65
+	enter 4
+' * int i(offset -2)
+' * int j(offset -4)
+' * Function body
+
+#line 33
+' * Assignment
+	push bp
+	pushi -2
+	addi
+	pushi 0
+	storei
+
+#line 35
+' * While
+label_18:
+	push bp
+	pushi -2
+	addi
+	loadi
+	pushi 20
+	lti
+	jz label_19
+
+#line 36
+' * Assignment
+	push bp
+	pushi -4
+	addi
+	pushi 0
+	storei
+
+#line 37
+' * While
+label_20:
+	push bp
+	pushi -4
+	addi
+	loadi
+	pushi 20
+	lti
+	jz label_21
+
+#line 38
+' * Print
+	pusha 0
+	push bp
+	pushi -2
+	addi
+	loadi
+	pushi 40
+	muli
+	addi
+	push bp
+	pushi -4
+	addi
+	loadi
+	pushi 2
+	muli
+	addi
+	loadi
+	i2f
+	pushf 25.0
+	divf
+	call numToChar
+	outb
+
+#line 39
+' * Assignment
+	push bp
+	pushi -4
+	addi
+	push bp
+	pushi -4
+	addi
+	loadi
+	pushi 1
+	addi
+	storei
+	jmp label_20
+label_21:
+
+#line 41
+' * Print
+	pushb 10
+	outb
+
+#line 43
+' * Assignment
+	push bp
+	pushi -2
+	addi
+	push bp
+	pushi -2
+	addi
+	loadi
+	pushi 1
+	addi
+	storei
+	jmp label_18
+label_19:
+	ret 0,4,0
+' * Function show end
+
+#line 47
+' * Function
+abs:
+' * ast.definition.FunctionDefinition@7e0ea639
+	enter 0
+' * Function body
+
+#line 48
+' * If
+	push bp
+	pushi 4
+	addi
+	loadf
+	pushf 0.0
+	gtf
+	jz label_23
+
+#line 48
+' * Return
+	push bp
+	pushi 4
+	addi
+	loadf
+	ret 4,0,4
+	jmp label_23
+label_23:
+
+#line 49
+' * Return
+	pushf 0
+	push bp
+	pushi 4
+	addi
+	loadf
+	subf
+	ret 4,0,4
+' * Function abs end
+
+#line 52
+' * Function
+sqrt:
+' * ast.definition.FunctionDefinition@3d24753a
+	enter 20
+' * real x(offset -4)
+' * real min(offset -8)
+' * real max(offset -12)
+' * real e(offset -16)
+' * int max_iters(offset -18)
+' * int iters(offset -20)
+' * Function body
+
+#line 56
+' * Assignment
+	push bp
+	pushi -8
+	addi
+	pushf 0.0
+	storef
+
+#line 57
+' * Assignment
+	push bp
+	pushi -12
+	addi
+	push bp
+	pushi 4
+	addi
+	loadf
+	storef
+
+#line 59
+' * Assignment
+	push bp
+	pushi -16
+	addi
+	pushf 0.01
+	storef
+
+#line 60
+' * Assignment
+	push bp
+	pushi -18
+	addi
+	pushi 6
+	storei
+
+#line 62
+' * Assignment
+	push bp
+	pushi -4
+	addi
+	push bp
+	pushi 4
+	addi
+	loadf
+	pushf 2.0
+	divf
+	storef
+
+#line 63
+' * Assignment
+	push bp
+	pushi -20
+	addi
+	pushi 0
+	storei
+
+#line 64
+' * While
+label_24:
+	push bp
+	pushi -4
+	addi
+	loadf
+	push bp
+	pushi -4
+	addi
+	loadf
+	mulf
+	push bp
+	pushi 4
+	addi
+	loadf
+	subf
+	call abs
+	push bp
+	pushi -16
+	addi
+	loadf
+	gtf
+	push bp
+	pushi -20
+	addi
+	loadi
+	push bp
+	pushi -18
+	addi
+	loadi
+	lti
+	and
+	jz label_25
+
+#line 65
+' * If
+	push bp
+	pushi -4
+	addi
+	loadf
+	push bp
+	pushi -4
+	addi
+	loadf
+	mulf
+	push bp
+	pushi 4
+	addi
+	loadf
+	gtf
+	jz label_27
+
+#line 65
+' * Assignment
+	push bp
+	pushi -12
+	addi
+	push bp
+	pushi -4
+	addi
+	loadf
+	storef
+	jmp label_27
+label_27:
+
+#line 66
+' * If
+	push bp
+	pushi -4
+	addi
+	loadf
+	push bp
+	pushi -4
+	addi
+	loadf
+	mulf
+	push bp
+	pushi 4
+	addi
+	loadf
+	ltf
+	jz label_29
+
+#line 66
+' * Assignment
+	push bp
+	pushi -8
+	addi
+	push bp
+	pushi -4
+	addi
+	loadf
+	storef
+	jmp label_29
+label_29:
+
+#line 68
+' * Assignment
+	push bp
+	pushi -4
+	addi
+	push bp
+	pushi -12
+	addi
+	loadf
+	push bp
+	pushi -8
+	addi
+	loadf
+	addf
+	pushf 2.0
+	divf
+	storef
+
+#line 70
+' * Assignment
+	push bp
+	pushi -20
+	addi
+	push bp
+	pushi -20
+	addi
+	loadi
+	pushi 1
+	addi
+	storei
+	jmp label_24
+label_25:
+
+#line 73
+' * Return
+	push bp
+	pushi -4
+	addi
+	loadf
+	ret 4,20,4
+' * Function sqrt end
+
+#line 76
+' * Function
+module:
+' * ast.definition.FunctionDefinition@59a6e353
+	enter 0
+' * Function body
+
+#line 77
+' * Return
+	push bp
+	pushi 8
+	addi
+	loadf
+	push bp
+	pushi 8
+	addi
+	loadf
+	mulf
+	push bp
+	pushi 4
+	addi
+	loadf
+	push bp
+	pushi 4
+	addi
+	loadf
+	mulf
+	addf
+	call sqrt
+	ret 4,0,8
+' * Function module end
+
+#line 80
+' * Function
+iters:
+' * ast.definition.FunctionDefinition@7a0ac6e3
+	enter 12
+' * struct {real x; real y; } z(offset -8)
+' * int i(offset -10)
+' * int max_iters(offset -12)
+' * Function body
+
+#line 83
+' * Assignment
+	push bp
+	pushi -10
+	addi
+	pushi 0
+	storei
+
+#line 83
+' * Assignment
+	push bp
+	pushi -12
+	addi
+	pushi 25
+	storei
+
+#line 84
+' * Assignment
+	push bp
+	pushi -8
+	addi
+	pushi 0
+	addi
+	pushf 0.0
+	storef
+
+#line 84
+' * Assignment
+	push bp
+	pushi -8
+	addi
+	pushi 4
+	addi
+	pushf 0.0
+	storef
+
+#line 86
+' * While
+label_30:
+	push bp
+	pushi -8
+	addi
+	pushi 0
+	addi
+	loadf
+	push bp
+	pushi -8
+	addi
+	pushi 4
+	addi
+	loadf
+	call module
+	pushf 2.0
+	ltf
+	push bp
+	pushi -10
+	addi
+	loadi
+	push bp
+	pushi -12
+	addi
+	loadi
+	lti
+	and
+	jz label_31
+
+#line 87
+' * Assignment
+	push bp
+	pushi -8
+	addi
+	pushi 0
+	addi
+	push bp
+	pushi -8
+	addi
+	pushi 0
+	addi
+	loadf
+	push bp
+	pushi -8
+	addi
+	pushi 0
+	addi
+	loadf
+	mulf
+	push bp
+	pushi -8
+	addi
+	pushi 4
+	addi
+	loadf
+	push bp
+	pushi -8
+	addi
+	pushi 4
+	addi
+	loadf
+	mulf
+	subf
+	push bp
+	pushi 8
+	addi
+	loadf
+	addf
+	storef
+
+#line 88
+' * Assignment
+	push bp
+	pushi -8
+	addi
+	pushi 4
+	addi
+	pushf 2.0
+	push bp
+	pushi -8
+	addi
+	pushi 0
+	addi
+	loadf
+	mulf
+	push bp
+	pushi -8
+	addi
+	pushi 4
+	addi
+	loadf
+	mulf
+	push bp
+	pushi 4
+	addi
+	loadf
+	addf
+	storef
+
+#line 90
+' * Assignment
+	push bp
+	pushi -10
+	addi
+	push bp
+	pushi -10
+	addi
+	loadi
+	pushi 1
+	addi
+	storei
+	jmp label_30
+label_31:
+
+#line 93
+' * Return
+	push bp
+	pushi -10
+	addi
+	loadi
+	ret 2,12,8
+' * Function iters end
+
+#line 96
+' * Function
+map:
+' * ast.definition.FunctionDefinition@3796751b
+	enter 4
+' * real t(offset -4)
+' * Function body
+
+#line 99
+' * Assignment
+	push bp
+	pushi -4
+	addi
+	push bp
+	pushi 4
+	addi
+	loadi
+	push bp
+	pushi 8
+	addi
+	loadi
+	subi
+	i2f
+	push bp
+	pushi 6
+	addi
+	loadi
+	push bp
+	pushi 8
+	addi
+	loadi
+	subi
+	i2f
+	divf
+	storef
+
+#line 100
+' * Return
+	push bp
+	pushi 14
+	addi
+	loadf
+	push bp
+	pushi 10
+	addi
+	loadf
+	push bp
+	pushi 14
+	addi
+	loadf
+	subf
+	push bp
+	pushi -4
+	addi
+	loadf
+	mulf
+	addf
+	ret 4,4,14
+' * Function map end
+
+#line 103
+' * Function
+main:
+' * ast.definition.FunctionDefinition@67b64c45
+	enter 24
+' * real minX(offset -4)
+' * real minY(offset -8)
+' * real maxX(offset -12)
+' * real maxY(offset -16)
+' * int minM(offset -18)
+' * int maxM(offset -20)
+' * int i(offset -22)
+' * int j(offset -24)
+' * Function body
+
+#line 108
+' * Assignment
+	push bp
+	pushi -4
+	addi
+	pushf 0
+	pushf 2.0
+	subf
+	storef
+
+#line 108
+' * Assignment
+	push bp
+	pushi -8
+	addi
+	pushf 0
+	pushf 2.0
+	subf
+	storef
+
+#line 108
+' * Assignment
+	push bp
+	pushi -12
+	addi
+	pushf 2.0
+	storef
+
+#line 108
+' * Assignment
+	push bp
+	pushi -16
+	addi
+	pushf 2.0
+	storef
+
+#line 109
+' * Assignment
+	push bp
+	pushi -18
+	addi
+	pushi 0
+	storei
+
+#line 109
+' * Assignment
+	push bp
+	pushi -20
+	addi
+	pushi 20
+	storei
+
+#line 111
+' * Assignment
+	push bp
+	pushi -22
+	addi
+	push bp
+	pushi -18
+	addi
+	loadi
+	storei
+
+#line 112
+' * While
+label_32:
+	push bp
+	pushi -22
+	addi
+	loadi
+	push bp
+	pushi -20
+	addi
+	loadi
+	lti
+	jz label_33
+
+#line 113
+' * Assignment
+	push bp
+	pushi -24
+	addi
+	push bp
+	pushi -18
+	addi
+	loadi
+	storei
+
+#line 114
+' * While
+label_34:
+	push bp
+	pushi -24
+	addi
+	loadi
+	push bp
+	pushi -20
+	addi
+	loadi
+	lti
+	jz label_35
+
+#line 115
+' * Assignment
+	pusha 0
+	push bp
+	pushi -22
+	addi
+	loadi
+	pushi 40
+	muli
+	addi
+	push bp
+	pushi -24
+	addi
+	loadi
+	pushi 2
+	muli
+	addi
+	push bp
+	pushi -4
+	addi
+	loadf
+	push bp
+	pushi -12
+	addi
+	loadf
+	push bp
+	pushi -18
+	addi
+	loadi
+	push bp
+	pushi -20
+	addi
+	loadi
+	push bp
+	pushi -24
+	addi
+	loadi
+	call map
+	push bp
+	pushi -8
+	addi
+	loadf
+	push bp
+	pushi -16
+	addi
+	loadf
+	push bp
+	pushi -18
+	addi
+	loadi
+	push bp
+	pushi -20
+	addi
+	loadi
+	push bp
+	pushi -22
+	addi
+	loadi
+	call map
+	call iters
+	storei
+
+#line 120
+' * Assignment
+	push bp
+	pushi -24
+	addi
+	push bp
+	pushi -24
+	addi
+	loadi
+	pushi 1
+	addi
+	storei
+	jmp label_34
+label_35:
+
+#line 122
+' * Assignment
+	push bp
+	pushi -22
+	addi
+	push bp
+	pushi -22
+	addi
+	loadi
+	pushi 1
+	addi
+	storei
+	jmp label_32
+label_33:
+
+#line 125
+' * Function invocation
+	call show
+	ret 0,24,0
+' * Function main end

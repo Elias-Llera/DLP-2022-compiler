@@ -1,0 +1,26 @@
+"""
+Computes fibonacci numbers up to n
+Uses a non-optimized O(2^n) approach with recursion
+
+Fibonacci numbers are defined as follows:
+F1 = 1
+F2 = 1
+Fn = F(n - 1) + F(n - 2)
+"""
+
+def fib(n: int): int {
+    if n == 0: return 0;
+    if n == 1: return 1;
+    return fib(n - 1) + fib(n - 2);
+}
+
+def main(): {
+    i, max: int;
+    i = 0;
+
+    input max;
+    while i <= max: {
+        print 'F', '(', i ,')', ' ', '=', ' ', fib(i), '\n';
+        i = i + 1;
+    }
+}

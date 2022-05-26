@@ -1,0 +1,182 @@
+"""
+Allows the user to play hangman
+
+The user will need to introduce a random number as a seed for random number generation
+"""
+
+words: [50][5]char;
+
+def loadWord(i: int, c0: char, c1: char, c2: char, c3: char, c4: char): {
+	words[i][0] = c0;
+	words[i][1] = c1;
+	words[i][2] = c2;
+	words[i][3] = c3;
+	words[i][4] = c4;
+}
+
+def loadWords(): {
+	loadWord(0, 'a', 'b', 'u', 's', 'e');
+	loadWord(1, 'a', 'd', 'u', 'l', 't');
+	loadWord(2, 'a', 'g', 'e', 'n', 't');
+	loadWord(3, 'a', 'n', 'g', 'e', 'r');
+	loadWord(4, 'a', 'p', 'p', 'l', 'e');
+	loadWord(5, 'a', 'w', 'a', 'r', 'd');
+	loadWord(6, 'b', 'a', 's', 'i', 's');
+	loadWord(7, 'b', 'e', 'a', 'c', 'h');
+	loadWord(8, 'b', 'i', 'r', 't', 'h');
+	loadWord(9, 'b', 'l', 'o', 'c', 'k');
+	loadWord(10, 'b', 'l', 'o', 'o', 'd');
+	loadWord(11, 'b', 'o', 'a', 'r', 'd');
+	loadWord(12, 'b', 'r', 'a', 'i', 'n');
+	loadWord(13, 'b', 'r', 'e', 'a', 'd');
+	loadWord(14, 'b', 'r', 'e', 'a', 'k');
+	loadWord(15, 'b', 'r', 'o', 'w', 'n');
+	loadWord(16, 'b', 'u', 'y', 'e', 'r');
+	loadWord(17, 'c', 'a', 'u', 's', 'e');
+	loadWord(18, 'c', 'h', 'a', 'i', 'n');
+	loadWord(19, 'c', 'h', 'a', 'i', 'r');
+	loadWord(20, 'c', 'h', 'e', 's', 't');
+	loadWord(21, 'c', 'h', 'i', 'e', 'f');
+	loadWord(22, 'c', 'h', 'i', 'l', 'd');
+	loadWord(23, 'c', 'h', 'i', 'n', 'a');
+	loadWord(24, 'c', 'l', 'a', 'i', 'm');
+	loadWord(25, 'c', 'l', 'a', 's', 's');
+	loadWord(26, 'c', 'l', 'o', 'c', 'k');
+	loadWord(27, 'c', 'o', 'a', 'c', 'h');
+	loadWord(28, 'c', 'o', 'a', 's', 't');
+	loadWord(29, 'c', 'o', 'u', 'r', 't');
+	loadWord(30, 'c', 'o', 'v', 'e', 'r');
+	loadWord(31, 'c', 'r', 'e', 'a', 'm');
+	loadWord(32, 'c', 'r', 'i', 'm', 'e');
+	loadWord(33, 'c', 'r', 'o', 's', 's');
+	loadWord(34, 'c', 'r', 'o', 'w', 'd');
+	loadWord(35, 'c', 'r', 'o', 'w', 'n');
+	loadWord(36, 'c', 'y', 'c', 'l', 'e');
+	loadWord(37, 'd', 'a', 'n', 'c', 'e');
+	loadWord(38, 'd', 'e', 'a', 't', 'h');
+	loadWord(39, 'd', 'e', 'p', 't', 'h');
+	loadWord(40, 'd', 'o', 'u', 'b', 't');
+	loadWord(41, 'd', 'r', 'a', 'f', 't');
+	loadWord(42, 'd', 'r', 'a', 'm', 'a');
+	loadWord(43, 'd', 'r', 'e', 'a', 'm');
+	loadWord(44, 'd', 'r', 'e', 's', 's');
+	loadWord(45, 'd', 'r', 'i', 'n', 'k');
+	loadWord(46, 'd', 'r', 'i', 'v', 'e');
+	loadWord(47, 'e', 'a', 'r', 't', 'h');
+	loadWord(48, 'e', 'n', 'e', 'm', 'y');
+	loadWord(49, 'e', 'n', 't', 'r', 'y');
+}
+
+rng: int;
+
+def abs(n: int): int {
+    if n > 0: return n;
+    return -n;
+}
+
+def seed(n: int): {
+    rng = n;
+}
+
+def rand(): int {
+    a, c, m: int;
+    m = 7793; a = 1234; c = 997;
+
+    rng = (a * rng + c) % m;
+    rng = abs(rng);
+    return rng;
+}
+
+tries: [30]char;
+n_tries: int;
+
+def in_word(c: char, word_index: int): int {
+    i, result: int;
+
+    result = 0;
+    i = 0;
+    while i < n_tries: {
+        result = result + (words[word_index][i] == c);
+        i = i + 1;
+    }
+
+    return result;
+}
+
+def in_tries(c: char): int {
+    i, result: int;
+
+    result = 0;
+    i = 0;
+    while i < n_tries: {
+        result = result + (tries[i] == c);
+        i = i + 1;
+    }
+
+    return result;
+}
+
+def print_word(i: int): {
+    j: int;
+    c: char;
+
+    j = 0;
+    while j < 5: {
+        c = words[i][j];
+        if in_tries(c): print c;
+        else print '_';
+
+        j = j + 1;
+    }
+}
+
+def completed(i: int): int {
+    j, result: int;
+
+    result = 1;
+    j = 0;
+    while j < 5: {
+        result = result * in_tries(words[i][j]);
+        j = j + 1;
+    }
+
+    return result;
+}
+
+def main(): {
+	srng, word_index: int;
+	try: char;
+	fails, max_fails: int;
+	loadWords();
+	n_tries = 0;
+	fails = 0; max_fails = 7;
+
+	print 'c', 'h', 'o', 'o', 's', 'e', ' ', 'a', ' ', 'r', 'a', 'n', 'd', 'o', 'm', ' ', 'n', 'u', 'm', 'b', 'e', 'r', ':';
+	input srng;
+
+	seed(srng);
+	while srng > 2: {
+	    rand();
+	    srng = srng / 2;
+	}
+
+	word_index = rand() % 50;
+
+	while !completed(word_index) && fails <= max_fails: {
+	    print_word(word_index);
+        print '\n';
+
+        try = '\n';
+        while try == '\n': input try;
+
+	    tries[n_tries] = try;
+	    if !in_word(try, word_index): {
+	        fails = fails + 1;
+	    }
+
+	    n_tries = n_tries + 1;
+	}
+
+	if fails >= max_fails: print 'Y', 'o', 'u', ' ', 'L', 'o', 's', 'e';
+	else print 'Y', 'o', 'u', ' ', 'W', 'i', 'n', '!';
+}

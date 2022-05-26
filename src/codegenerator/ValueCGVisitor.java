@@ -135,19 +135,17 @@ public class ValueCGVisitor extends AbstractCGVisitor<Void>{
      */
     @Override
     public Void visit(Comparison comparison, Void param){
-        Type comparisonType = comparison.getRightExpression().getType();
+        Type comparisonType = comparison.getLeftExpression().getType();
 
-        // Left operand type has preference
-        if(!(comparison.getRightExpression().getType().promotesTo(comparison.getLeftExpression().getType(), comparison)
-                instanceof ErrorType)){
-            comparisonType = comparison.getLeftExpression().getType();
+        if(comparisonType.equals(CharType.getInstance())){
+            comparisonType = IntegerType.getInstance();
         }
 
         comparison.getLeftExpression().accept(this,null);
-        comparisonType.promote(comparison.getRightExpression(), codeGenerator);
+        comparisonType.promote(comparison.getLeftExpression(), codeGenerator);
 
         comparison.getRightExpression().accept(this,null);
-        comparisonType.promote(comparison.getLeftExpression(), codeGenerator);
+        comparisonType.promote(comparison.getRightExpression(), codeGenerator);
 
         switch (comparison.getOperator()){
             case ">":
@@ -199,13 +197,20 @@ public class ValueCGVisitor extends AbstractCGVisitor<Void>{
 
     /**
      * value[[UnaryMinus : expression1 -> expression2]]() =
-     *      <pushi 0>
+     *      if(expression2.type.equals(DoubleType.getInstance())
+     *          <pushf 0>
+     *      else
+     *          <pushi 0>
      *      value[[expression2]]()
      *      <sub> expression1.type.suffix()
      */
     @Override
     public Void visit(UnaryMinus unaryMinus, Void param){
-        codeGenerator.push(0);
+        if(unaryMinus.getType().equals(DoubleType.getInstance())){
+            codeGenerator.push(0.0);
+        } else {
+            codeGenerator.push(0);
+        }
         unaryMinus.getExpression().accept(this, null);
         codeGenerator.sub(unaryMinus.getType());
 

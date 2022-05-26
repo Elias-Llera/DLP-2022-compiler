@@ -1,0 +1,602 @@
+#SOURCE "programs/maths/ordering/quicksort.txt"
+call main
+halt
+'# GLOBAL VARIABLES
+' * Array - Size: 10 - Type: [Integer] array (offset: 0)
+' * Integer rng (offset: 20)
+'# FUNCTIONS
+' * FunctionDefinition: 
+abs:
+' * Locals: 
+	enter 0
+#line	8
+'    * If statement
+	push bp
+	pushi 4
+	addi
+	loadi
+	pushi 0
+	gti
+	jz label_1
+#line	8
+'    * Return
+	push bp
+	pushi 4
+	addi
+	loadi
+	ret 2,0,2
+	label_1:
+#line	9
+'    * Return
+	pushi 0
+	push bp
+	pushi 4
+	addi
+	loadi
+	subi
+	ret 2,0,2
+' * FunctionDefinition: 
+seed:
+' * Locals: 
+	enter 0
+#line	13
+'    * Assignment statement
+	pusha 20
+	push bp
+	pushi 4
+	addi
+	loadi
+	storei
+	ret 0,0,2
+' * FunctionDefinition: 
+rand:
+' * Locals: 
+' * Integer a (offset: -2)
+' * Integer c (offset: -4)
+' * Integer m (offset: -6)
+	enter 6
+#line	18
+'    * Assignment statement
+	push bp
+	pushi -6
+	addi
+	pushi 7793
+	storei
+#line	18
+'    * Assignment statement
+	push bp
+	pushi -2
+	addi
+	pushi 1234
+	storei
+#line	18
+'    * Assignment statement
+	push bp
+	pushi -4
+	addi
+	pushi 997
+	storei
+#line	20
+'    * Assignment statement
+	pusha 20
+	push bp
+	pushi -2
+	addi
+	loadi
+	pusha 20
+	loadi
+	muli
+	push bp
+	pushi -4
+	addi
+	loadi
+	addi
+	push bp
+	pushi -6
+	addi
+	loadi
+	modi
+	storei
+#line	21
+'    * Assignment statement
+	pusha 20
+	pusha 20
+	loadi
+	call abs
+	storei
+#line	22
+'    * Return
+	pusha 20
+	loadi
+	ret 2,6,0
+' * FunctionDefinition: 
+partition:
+' * Locals: 
+' * Integer pivot (offset: -2)
+' * Integer ptr (offset: -4)
+' * Integer i (offset: -6)
+' * Integer aux (offset: -8)
+	enter 8
+#line	36
+'    * Assignment statement
+	push bp
+	pushi -2
+	addi
+	pusha 0
+	push bp
+	pushi 4
+	addi
+	loadi
+	pushi 2
+	muli
+	addi
+	loadi
+	storei
+#line	37
+'    * Assignment statement
+	push bp
+	pushi -4
+	addi
+	push bp
+	pushi 6
+	addi
+	loadi
+	storei
+#line	38
+'    * Assignment statement
+	push bp
+	pushi -6
+	addi
+	push bp
+	pushi 6
+	addi
+	loadi
+	storei
+#line	40
+'    * While statement
+	label_2:
+	push bp
+	pushi -6
+	addi
+	loadi
+	push bp
+	pushi 4
+	addi
+	loadi
+	lti
+	jz label_3
+#line	41
+'    * If statement
+	pusha 0
+	push bp
+	pushi -6
+	addi
+	loadi
+	pushi 2
+	muli
+	addi
+	loadi
+	push bp
+	pushi -2
+	addi
+	loadi
+	lei
+	jz label_5
+#line	43
+'    * Assignment statement
+	push bp
+	pushi -8
+	addi
+	pusha 0
+	push bp
+	pushi -6
+	addi
+	loadi
+	pushi 2
+	muli
+	addi
+	loadi
+	storei
+#line	44
+'    * Assignment statement
+	pusha 0
+	push bp
+	pushi -6
+	addi
+	loadi
+	pushi 2
+	muli
+	addi
+	pusha 0
+	push bp
+	pushi -4
+	addi
+	loadi
+	pushi 2
+	muli
+	addi
+	loadi
+	storei
+#line	45
+'    * Assignment statement
+	pusha 0
+	push bp
+	pushi -4
+	addi
+	loadi
+	pushi 2
+	muli
+	addi
+	push bp
+	pushi -8
+	addi
+	loadi
+	storei
+#line	46
+'    * Assignment statement
+	push bp
+	pushi -4
+	addi
+	push bp
+	pushi -4
+	addi
+	loadi
+	pushi 1
+	addi
+	storei
+	label_5:
+#line	48
+'    * Assignment statement
+	push bp
+	pushi -6
+	addi
+	pushi 1
+	push bp
+	pushi -6
+	addi
+	loadi
+	addi
+	storei
+	jmp label_2
+	label_3:
+#line	52
+'    * Assignment statement
+	push bp
+	pushi -8
+	addi
+	pusha 0
+	push bp
+	pushi -4
+	addi
+	loadi
+	pushi 2
+	muli
+	addi
+	loadi
+	storei
+#line	53
+'    * Assignment statement
+	pusha 0
+	push bp
+	pushi -4
+	addi
+	loadi
+	pushi 2
+	muli
+	addi
+	pusha 0
+	push bp
+	pushi 4
+	addi
+	loadi
+	pushi 2
+	muli
+	addi
+	loadi
+	storei
+#line	54
+'    * Assignment statement
+	pusha 0
+	push bp
+	pushi 4
+	addi
+	loadi
+	pushi 2
+	muli
+	addi
+	push bp
+	pushi -8
+	addi
+	loadi
+	storei
+#line	56
+'    * Return
+	push bp
+	pushi -4
+	addi
+	loadi
+	ret 2,8,4
+' * FunctionDefinition: 
+quickSort:
+' * Locals: 
+' * Integer pi (offset: -2)
+	enter 2
+#line	62
+'    * If statement
+	push bp
+	pushi 6
+	addi
+	loadi
+	push bp
+	pushi 4
+	addi
+	loadi
+	lti
+	jz label_7
+#line	63
+'    * Assignment statement
+	push bp
+	pushi -2
+	addi
+	push bp
+	pushi 6
+	addi
+	loadi
+	push bp
+	pushi 4
+	addi
+	loadi
+	call partition
+	storei
+#line	64
+'    * Function Invocation
+	push bp
+	pushi 6
+	addi
+	loadi
+	push bp
+	pushi -2
+	addi
+	loadi
+	pushi 1
+	subi
+	call quickSort
+#line	65
+'    * Function Invocation
+	push bp
+	pushi -2
+	addi
+	loadi
+	pushi 1
+	addi
+	push bp
+	pushi 4
+	addi
+	loadi
+	call quickSort
+	label_7:
+	ret 0,2,4
+' * FunctionDefinition: 
+main:
+' * Locals: 
+' * Integer seedN (offset: -2)
+' * Integer i (offset: -4)
+	enter 4
+#line	75
+'    * Input statement
+	push bp
+	pushi -2
+	addi
+	ini
+	storei
+#line	76
+'    * Function Invocation
+	push bp
+	pushi -2
+	addi
+	loadi
+	call seed
+#line	78
+'    * Print statement
+	pushb 85
+	outb
+#line	78
+'    * Print statement
+	pushb 78
+	outb
+#line	78
+'    * Print statement
+	pushb 79
+	outb
+#line	78
+'    * Print statement
+	pushb 82
+	outb
+#line	78
+'    * Print statement
+	pushb 68
+	outb
+#line	78
+'    * Print statement
+	pushb 69
+	outb
+#line	78
+'    * Print statement
+	pushb 82
+	outb
+#line	78
+'    * Print statement
+	pushb 69
+	outb
+#line	78
+'    * Print statement
+	pushb 68
+	outb
+#line	78
+'    * Print statement
+	pushb 58
+	outb
+#line	78
+'    * Print statement
+	pushb 91
+	outb
+#line	79
+'    * Assignment statement
+	push bp
+	pushi -4
+	addi
+	pushi 0
+	storei
+#line	80
+'    * While statement
+	label_8:
+	push bp
+	pushi -4
+	addi
+	loadi
+	pushi 10
+	lti
+	jz label_9
+#line	81
+'    * Assignment statement
+	pusha 0
+	push bp
+	pushi -4
+	addi
+	loadi
+	pushi 2
+	muli
+	addi
+	call rand
+	storei
+#line	82
+'    * Print statement
+	pusha 0
+	push bp
+	pushi -4
+	addi
+	loadi
+	pushi 2
+	muli
+	addi
+	loadi
+	outi
+#line	82
+'    * Print statement
+	pushb 44
+	outb
+#line	83
+'    * Assignment statement
+	push bp
+	pushi -4
+	addi
+	push bp
+	pushi -4
+	addi
+	loadi
+	pushi 1
+	addi
+	storei
+	jmp label_8
+	label_9:
+#line	85
+'    * Print statement
+	pushb 93
+	outb
+#line	85
+'    * Print statement
+	pushb 10
+	outb
+#line	88
+'    * Function Invocation
+	pushi 0
+	pushi 9
+	call quickSort
+#line	90
+'    * Print statement
+	pushb 79
+	outb
+#line	90
+'    * Print statement
+	pushb 82
+	outb
+#line	90
+'    * Print statement
+	pushb 68
+	outb
+#line	90
+'    * Print statement
+	pushb 69
+	outb
+#line	90
+'    * Print statement
+	pushb 82
+	outb
+#line	90
+'    * Print statement
+	pushb 69
+	outb
+#line	90
+'    * Print statement
+	pushb 68
+	outb
+#line	90
+'    * Print statement
+	pushb 58
+	outb
+#line	90
+'    * Print statement
+	pushb 91
+	outb
+#line	92
+'    * Assignment statement
+	push bp
+	pushi -4
+	addi
+	pushi 0
+	storei
+#line	93
+'    * While statement
+	label_10:
+	push bp
+	pushi -4
+	addi
+	loadi
+	pushi 10
+	lti
+	jz label_11
+#line	95
+'    * Print statement
+	pusha 0
+	push bp
+	pushi -4
+	addi
+	loadi
+	pushi 2
+	muli
+	addi
+	loadi
+	outi
+#line	95
+'    * Print statement
+	pushb 44
+	outb
+#line	97
+'    * Assignment statement
+	push bp
+	pushi -4
+	addi
+	push bp
+	pushi -4
+	addi
+	loadi
+	pushi 1
+	addi
+	storei
+	jmp label_10
+	label_11:
+#line	100
+'    * Print statement
+	pushb 93
+	outb
+	ret 0,4,0

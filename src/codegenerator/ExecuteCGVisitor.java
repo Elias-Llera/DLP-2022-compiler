@@ -181,6 +181,8 @@ public class ExecuteCGVisitor extends AbstractCGVisitor<FunctionDefinition> {
      */
     @Override
     public Void visit (While whileStatement, FunctionDefinition param){
+
+        codeGenerator.writeLine(whileStatement);
         codeGenerator.writeComment("While");
 
         int endLabel, conditionLabel;
@@ -191,6 +193,7 @@ public class ExecuteCGVisitor extends AbstractCGVisitor<FunctionDefinition> {
         whileStatement.getCondition().accept(valueCGVisitor, null);
         codeGenerator.jz(endLabel);
 
+        codeGenerator.writeComment("While body");
         for (Statement statement : whileStatement.getBody()) {
             statement.accept(this, param);
         }
@@ -219,6 +222,7 @@ public class ExecuteCGVisitor extends AbstractCGVisitor<FunctionDefinition> {
     @Override
     public Void visit (IfElse ifElse, FunctionDefinition param){
 
+        codeGenerator.writeLine(ifElse);
         codeGenerator.writeComment("If-Else");
 
         int endLabel = codeGenerator.generateLabel();
@@ -228,11 +232,14 @@ public class ExecuteCGVisitor extends AbstractCGVisitor<FunctionDefinition> {
         codeGenerator.jz(elseLabel);
 
         for (Statement statement : ifElse.getIfBody()) {
+            codeGenerator.writeComment("If body");
             statement.accept(this, param);
         }
         codeGenerator.jmp(endLabel);
 
+        codeGenerator.writeLabel(elseLabel);
         for (Statement statement : ifElse.getElseBody()) {
+            codeGenerator.writeComment("Else body");
             statement.accept(this, param);
         }
 
@@ -249,6 +256,9 @@ public class ExecuteCGVisitor extends AbstractCGVisitor<FunctionDefinition> {
      */
     @Override
     public Void visit (FunctionInvocation functionInvocation, FunctionDefinition param){
+
+        codeGenerator.writeLine(functionInvocation);
+        codeGenerator.writeComment("Invocation of function " + functionInvocation.getVariable().getName());
 
         functionInvocation.accept(this.valueCGVisitor, null);
 

@@ -1,0 +1,148 @@
+#source "input.txt"
+	call main
+	halt
+
+#line 11
+' * Function
+fib:
+' * ast.definition.FunctionDefinition@6833ce2c
+	enter 0
+' * Function body
+
+#line 12
+' * If
+	push bp
+	pushi 4
+	addi
+	loadi
+	pushi 0
+	eqi
+	jz label_1
+
+#line 12
+' * Return
+	pushi 0
+	ret 2,0,2
+	jmp label_1
+label_1:
+
+#line 13
+' * If
+	push bp
+	pushi 4
+	addi
+	loadi
+	pushi 1
+	eqi
+	jz label_3
+
+#line 13
+' * Return
+	pushi 1
+	ret 2,0,2
+	jmp label_3
+label_3:
+
+#line 14
+' * Return
+	push bp
+	pushi 4
+	addi
+	loadi
+	pushi 1
+	subi
+	call fib
+	push bp
+	pushi 4
+	addi
+	loadi
+	pushi 2
+	subi
+	call fib
+	addi
+	ret 2,0,2
+' * Function fib end
+
+#line 17
+' * Function
+main:
+' * ast.definition.FunctionDefinition@5a01ccaa
+	enter 4
+' * int i(offset -2)
+' * int max(offset -4)
+' * Function body
+
+#line 19
+' * Assignment
+	push bp
+	pushi -2
+	addi
+	pushi 0
+	storei
+
+#line 21
+' * Input
+	push bp
+	pushi -4
+	addi
+	ini
+	storei
+
+#line 22
+' * While
+label_4:
+	push bp
+	pushi -2
+	addi
+	loadi
+	push bp
+	pushi -4
+	addi
+	loadi
+	lei
+	jz label_5
+
+#line 23
+' * Print
+	pushb 70
+	outb
+	pushb 40
+	outb
+	push bp
+	pushi -2
+	addi
+	loadi
+	outi
+	pushb 41
+	outb
+	pushb 32
+	outb
+	pushb 61
+	outb
+	pushb 32
+	outb
+	push bp
+	pushi -2
+	addi
+	loadi
+	call fib
+	outi
+	pushb 10
+	outb
+
+#line 24
+' * Assignment
+	push bp
+	pushi -2
+	addi
+	push bp
+	pushi -2
+	addi
+	loadi
+	pushi 1
+	addi
+	storei
+	jmp label_4
+label_5:
+	ret 0,4,0
+' * Function main end
