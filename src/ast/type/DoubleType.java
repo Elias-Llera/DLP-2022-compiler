@@ -61,7 +61,7 @@ public class DoubleType extends AbstractType {
             return otherType;
         else if (otherType.equals(CharType.getInstance()) || otherType.equals(IntegerType.getInstance())
                 || otherType.equals(DoubleType.getInstance()))
-            return IntegerType.getInstance();
+            return BooleanType.getInstance();
         else
             return super.comparison(otherType, node);
     }

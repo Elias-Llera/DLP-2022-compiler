@@ -12,10 +12,7 @@ import ast.expression.binary.Logical;
 import ast.expression.unary.Cast;
 import ast.expression.unary.Negation;
 import ast.expression.unary.UnaryMinus;
-import ast.expression.value.CharLiteral;
-import ast.expression.value.DoubleLiteral;
-import ast.expression.value.IntLiteral;
-import ast.expression.value.Variable;
+import ast.expression.value.*;
 import ast.statement.*;
 import ast.type.*;
 import semantic.Visitor;
@@ -124,6 +121,11 @@ public abstract class AbstractCGVisitor<TP> implements Visitor<TP, Void> {
     }
 
     @Override
+    public Void visit(BoolLiteral boolLiteral, TP param) {
+        throw new IllegalStateException("Cannot call " + this.getClass().getName() + " for this class.");
+    }
+
+    @Override
     public Void visit(FieldAccess fieldAccess, TP param) {
         throw new IllegalStateException("Cannot call " + this.getClass().getName() + " for this class.");
     }
@@ -155,6 +157,11 @@ public abstract class AbstractCGVisitor<TP> implements Visitor<TP, Void> {
 
     @Override
     public Void visit(IntegerType integerType, TP param) {
+        throw new IllegalStateException("Cannot call " + this.getClass().getName() + " for this class.");
+    }
+
+    @Override
+    public Void visit(BooleanType booleanType, TP param) {
         throw new IllegalStateException("Cannot call " + this.getClass().getName() + " for this class.");
     }
 

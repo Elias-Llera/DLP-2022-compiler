@@ -48,6 +48,7 @@ public class CharType extends AbstractType{
         else
             return super.promotesTo(otherType, node);
     }
+
     @Override
     public Type canBeCast(Type otherType, AstNode node) {
         if (otherType instanceof ErrorType || otherType.equals(CharType.getInstance())
@@ -63,7 +64,7 @@ public class CharType extends AbstractType{
             return otherType;
         else if (otherType.equals(CharType.getInstance()) || otherType.equals(IntegerType.getInstance())
                 || otherType.equals(DoubleType.getInstance()))
-            return IntegerType.getInstance();
+            return BooleanType.getInstance();
         else
             return super.comparison(otherType, node);
     }

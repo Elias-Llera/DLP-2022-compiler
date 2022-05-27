@@ -9,6 +9,7 @@ import ast.expression.unary.*;
 import ast.expression.value.*;
 import ast.statement.*;
 import ast.type.*;
+import errorhandler.*;
 import parser.*;
 }
 
@@ -40,7 +41,7 @@ definition returns [ List<Definition> ast = new ArrayList<>() ] :
      }
     ;
 
-variable_definition returns [ List<VariableDefinition> ast = new ArrayList<>() ] locals [List<String> names = new ArrayList<>()] :
+variable_definition returns [ List<VarDefinition> ast = new ArrayList<>() ] locals [List<String> names = new ArrayList<>()] :
     id1=ID
     {
         if($names.contains($id1.text))
@@ -55,14 +56,14 @@ variable_definition returns [ List<VariableDefinition> ast = new ArrayList<>() ]
     })*
     ':' type ';'
     {
-        $names.forEach( name-> $ast.add(new VariableDefinition(name, $type.ast, $id1.getLine(), $id1.getCharPositionInLine()+1)));
+        $names.forEach( name-> $ast.add(new VarDefinition(name, $type.ast, $id1.getLine(), $id1.getCharPositionInLine()+1)));
     }
 ;
 
-function_definition returns [ FunctionDefinition ast ] locals [ List<VariableDefinition> paramDefinitions = new ArrayList<>(), Type returnType = VoidType.getInstance() ]:
+function_definition returns [ FunctionDefinition ast ] locals [ List<VarDefinition> paramDefinitions = new ArrayList<>(), Type returnType = VoidType.getInstance() ]:
     'def' idFunction=ID
-    '(' (id1=ID ':' t1=built_in_type { $paramDefinitions.add(new VariableDefinition($id1.text, $t1.ast, $id1.getLine(), $id1.getCharPositionInLine()+1)); }
-    (',' id2=ID ':' t2=built_in_type { $paramDefinitions.add(new VariableDefinition($id2.text, $t2.ast, $id2.getLine(), $id2.getCharPositionInLine()+1)); })*)? ')'
+    '(' (id1=ID ':' t1=built_in_type { $paramDefinitions.add(new VarDefinition($id1.text, $t1.ast, $id1.getLine(), $id1.getCharPositionInLine()+1)); }
+    (',' id2=ID ':' t2=built_in_type { $paramDefinitions.add(new VarDefinition($id2.text, $t2.ast, $id2.getLine(), $id2.getCharPositionInLine()+1)); })*)? ')'
     ':' (type { $returnType = $type.ast; } )?
     {
         FunctionType funcType = new FunctionType($returnType, $idFunction.getLine(), $idFunction.getCharPositionInLine()+1);
@@ -133,6 +134,11 @@ expression returns [ Expression ast ]:
             {
                 $ast = new DoubleLiteral(LexerHelper.lexemeToReal($REAL_CONSTANT.text),
                     $REAL_CONSTANT.getLine(), $REAL_CONSTANT.getCharPositionInLine()+1);
+            }
+          | BOOL_CONSTANT
+            {
+                $ast = new BoolLiteral(LexerHelper.lexemeToBoolean($BOOL_CONSTANT.text),
+                    $BOOL_CONSTANT.getLine(), $BOOL_CONSTANT.getCharPositionInLine()+1);
             }
           | ID
             {
@@ -216,6 +222,10 @@ built_in_type returns [ Type ast ]:
                 {
                     $ast = DoubleType.getInstance();
                 }
+              | 'boolean'
+                {
+                    $ast = BooleanType.getInstance();
+                }
               ;
 
 type returns [ Type ast ] locals [List<Token> fieldIds = new ArrayList<>(), List<String> fieldNames = new ArrayList()]:
@@ -277,6 +287,9 @@ fragment
 LETTER: [a-zA-Z];
 
 INT_CONSTANT: [1-9]NUMBER* | '0'
+;
+
+BOOL_CONSTANT: 'true' | 'false'
 ;
 
 fragment

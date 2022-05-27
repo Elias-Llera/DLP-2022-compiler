@@ -12,10 +12,7 @@ import ast.expression.binary.Logical;
 import ast.expression.unary.Cast;
 import ast.expression.unary.Negation;
 import ast.expression.unary.UnaryMinus;
-import ast.expression.value.CharLiteral;
-import ast.expression.value.DoubleLiteral;
-import ast.expression.value.IntLiteral;
-import ast.expression.value.Variable;
+import ast.expression.value.*;
 import ast.type.*;
 
 import java.util.ArrayList;
@@ -236,6 +233,23 @@ public class ValueCGVisitor extends AbstractCGVisitor<Void>{
     @Override
     public Void visit(IntLiteral intLiteral, Void param){
         codeGenerator.push(intLiteral.getValue());
+        return null;
+    }
+
+    /**
+     * value[[BoolLiteral : expression1 -> BOOL_CONSTANT]]() =
+     *      if(expression1.value)
+     *          <pushi 1>
+     *      else
+     *          <pushi 0>
+     */
+    @Override
+    public Void visit(BoolLiteral boolLiteral, Void param){
+        if(boolLiteral.getValue()){
+            codeGenerator.push(1);
+        } else {
+            codeGenerator.push(0);
+        }
         return null;
     }
 

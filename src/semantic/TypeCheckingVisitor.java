@@ -12,10 +12,7 @@ import ast.expression.binary.Logical;
 import ast.expression.unary.Cast;
 import ast.expression.unary.Negation;
 import ast.expression.unary.UnaryMinus;
-import ast.expression.value.CharLiteral;
-import ast.expression.value.DoubleLiteral;
-import ast.expression.value.IntLiteral;
-import ast.expression.value.Variable;
+import ast.expression.value.*;
 import ast.statement.*;
 import ast.type.*;
 
@@ -109,6 +106,13 @@ public class TypeCheckingVisitor extends AbstractVisitor<Type, Void> {
     public Void visit(CharLiteral charLiteral, Type param) {
         charLiteral.setLvalue(false);
         charLiteral.setType(CharType.getInstance());
+        return null;
+    }
+
+    @Override
+    public Void visit(BoolLiteral boolLiteral, Type param) {
+        boolLiteral.setLvalue(false);
+        boolLiteral.setType(BooleanType.getInstance());
         return null;
     }
 

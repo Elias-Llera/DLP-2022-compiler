@@ -12,10 +12,7 @@ import ast.expression.binary.Logical;
 import ast.expression.unary.Cast;
 import ast.expression.unary.Negation;
 import ast.expression.unary.UnaryMinus;
-import ast.expression.value.CharLiteral;
-import ast.expression.value.DoubleLiteral;
-import ast.expression.value.IntLiteral;
-import ast.expression.value.Variable;
+import ast.expression.value.*;
 import ast.statement.*;
 import ast.type.*;
 
@@ -47,6 +44,7 @@ public interface Visitor<TP, TR> {
     TR visit(IntLiteral intLiteral, TP param);
     TR visit(DoubleLiteral doubleLiteral, TP param);
     TR visit(CharLiteral charLiteral, TP param);
+    TR visit(BoolLiteral boolLiteral, TP param);
     TR visit(FieldAccess fieldAccess, TP param);
     TR visit(ArrayAccess arrayAccess, TP param);
     TR visit(FunctionInvocation functionInvocation, TP param);
@@ -61,5 +59,6 @@ public interface Visitor<TP, TR> {
     TR visit(VoidType voidType, TP param);
     TR visit(RecordField recordField, TP param);
     TR visit(ErrorType errorType, TP param);
+    TR visit(BooleanType booleanType, TP param);
 
 }

@@ -13,10 +13,7 @@ import ast.expression.binary.Logical;
 import ast.expression.unary.Cast;
 import ast.expression.unary.Negation;
 import ast.expression.unary.UnaryMinus;
-import ast.expression.value.CharLiteral;
-import ast.expression.value.DoubleLiteral;
-import ast.expression.value.IntLiteral;
-import ast.expression.value.Variable;
+import ast.expression.value.*;
 import ast.statement.*;
 import ast.type.*;
 
@@ -155,6 +152,11 @@ public abstract class AbstractVisitor<TP, TR> implements Visitor<TP, TR> {
     }
 
     @Override
+    public TR visit(BoolLiteral boolLiteral, TP param) {
+        return null;
+    }
+
+    @Override
     public TR visit(FieldAccess fieldAccess, TP param) {
         fieldAccess.getExpression().accept(this, param);
         return null;
@@ -199,6 +201,9 @@ public abstract class AbstractVisitor<TP, TR> implements Visitor<TP, TR> {
     public TR visit(IntegerType integerType, TP param) {
         return null;
     }
+
+    @Override
+    public TR visit(BooleanType booleanType, TP param) { return null; }
 
     @Override
     public TR visit(RecordType recordType, TP param) {

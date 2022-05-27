@@ -26,11 +26,6 @@ public class IntegerType extends AbstractType{
     }
 
     @Override
-    public boolean isLogical() {
-        return true;
-    }
-
-    @Override
     public Type arithmetic(AstNode node) {
         return this;
     }
@@ -41,19 +36,6 @@ public class IntegerType extends AbstractType{
             return otherType;
         else
             return super.arithmetic(otherType, node);
-    }
-
-    @Override
-    public Type logical(AstNode node) {
-        return this;
-    }
-
-    @Override
-    public Type logical(Type otherType, AstNode node) {
-        if (otherType instanceof ErrorType || otherType.equals(IntegerType.getInstance()))
-            return otherType;
-        else
-            return super.logical(otherType, node);
     }
 
     @Override
@@ -80,7 +62,7 @@ public class IntegerType extends AbstractType{
             return otherType;
         else if (otherType.equals(IntegerType.getInstance()) || otherType.equals(CharType.getInstance())
                 ||  otherType.equals(DoubleType.getInstance()))
-            return this;
+            return BooleanType.getInstance();
         else
             return super.comparison(otherType, node);
     }

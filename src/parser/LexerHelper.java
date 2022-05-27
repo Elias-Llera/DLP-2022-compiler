@@ -12,6 +12,10 @@ public class LexerHelper {
 		return -1;
 	}
 
+	public static boolean lexemeToBoolean(String str){
+		return str.equals("true");
+	}
+
 	public static char lexemeToChar(String str) {
 		switch (str.length()){
 			case 3: // it is a normal char a, b, c...
